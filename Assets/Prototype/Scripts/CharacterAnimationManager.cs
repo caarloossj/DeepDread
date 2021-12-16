@@ -35,6 +35,5 @@ public class CharacterAnimationManager : MonoBehaviour
             return;
 
         playerAudioManager.AudioPlay(footstepSound, evt.floatParameter, true);
-        Debug.Log("uno");
     }
 }

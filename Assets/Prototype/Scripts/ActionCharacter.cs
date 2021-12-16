@@ -126,6 +126,7 @@ public class ActionCharacter : MonoBehaviour
     [Space(20)]
 
     //Wall detection
+    public LayerMask ledgeLayer;
     public Vector3 wallDetectionBoxExtents;
     public Vector3 wallDetectionBoxPosition;
     public Vector3 ledgeStartHeight;
@@ -133,6 +134,29 @@ public class ActionCharacter : MonoBehaviour
     public float roofCheckLenght;
     public float ledgeMaxHeight;
     public float ledgeSpread;
+    private bool isCollidingWall = false;
+    private bool isRoof = false;
+    private bool isClimbing = false;
+    public float maxSurfaceTilt;
+    public Vector3 hangPosOffset;
+
+    //Sliding Slopes
+    public float slopeSpeed;
+    private Vector3 hitPointNormal;
+    private bool isSliding
+    {
+        get
+        {
+            if(characterController.isGrounded && Physics.Raycast(characterController.ClosestPointOnBounds(transform.position), Vector3.down, out RaycastHit slopeHit, 1f))
+            {
+                hitPointNormal = slopeHit.normal;
+                return Vector3.Angle(hitPointNormal, Vector3.up) > characterController.slopeLimit;
+            } else
+            {
+                return false;
+            }
+        }
+    }
 
     [Space(20)]
     [Header("Sounds")]
@@ -228,7 +252,6 @@ public class ActionCharacter : MonoBehaviour
 
     void onMovementInput(Vector2 context)
     {
-
         //Register last current input
         if (currentMovementInput != Vector2.zero)
             lastMovementInput = currentMovementInput;
@@ -308,7 +331,7 @@ public class ActionCharacter : MonoBehaviour
         {
             //Camera Shake
             //actionCamera.Shake(1.8f, 1);
-            actionCamera.Zoom(0.5f, 48);
+            //actionCamera.Zoom(0.5f, 48);
 
             //Hit particle
             //var hitFx = Instantiate(hitFX, transform.position + transform.forward * hitFxOffest + transform.up * .2f, Quaternion.identity);
@@ -337,7 +360,7 @@ public class ActionCharacter : MonoBehaviour
     {
         ExecuteDash(comboDashes[currentCombo-1]);
 
-        StartCoroutine(lookTarget.Freeze(0.1f));
+        StartCoroutine(lookTarget.Freeze(0.14f));
     }
 
     //Sprint
@@ -352,6 +375,78 @@ public class ActionCharacter : MonoBehaviour
         isJumpPressed = context.ReadValueAsButton();
 
         targetTilt = 0;
+    }
+
+    private void CheckForLedge()
+    {
+        //Check for wall
+        Vector3 boxPos = new Vector3(transform.forward.x * wallDetectionBoxPosition.z, wallDetectionBoxPosition.y, transform.forward.z * wallDetectionBoxPosition.z);
+        isCollidingWall = Physics.CheckBox(transform.position + boxPos, wallDetectionBoxExtents/2, transform.rotation, ledgeLayer);
+
+        if(isCollidingWall)
+        {
+            //Check for surface
+            Vector3 rayPos = new Vector3(transform.forward.x * ledgeStartHeight.z, ledgeStartHeight.y, transform.forward.z * ledgeStartHeight.z);
+            Vector3 startPos = transform.position + rayPos - (transform.right * ledgeSpread);
+
+            Collider objectHit = null;
+            float surfaceDist = -1;
+
+            Vector3 climbPos = Vector3.zero;
+
+            for (int i = 0; i < 3; i++)
+            {
+                Vector3 linePos = startPos + (transform.right * ledgeSpread * i);
+                RaycastHit hit;
+                if(Physics.Raycast(linePos, Vector3.down, out hit, ledgeMaxHeight, ledgeLayer))
+                {
+                    //TODO: CHECK NORMAL
+                    
+                    //Check if surface is big enough
+                    if(objectHit == null)
+                    {
+                        objectHit = hit.collider;
+                    } else if (hit.collider != objectHit)
+                    {
+                        Debug.Log("Surface not big enough");
+                        return;
+                    }
+
+                    //Check if surface is even
+                    if(surfaceDist <= 0)
+                    {
+                        surfaceDist = hit.distance;
+                    } else if (Mathf.Abs(surfaceDist - hit.distance) >= maxSurfaceTilt)
+                    {
+                        Debug.Log("Surface not even enough");
+                        return;
+                    }
+
+                    if(i == 1)
+                        climbPos = hit.point;
+                } else {
+                    Debug.Log("No surface found");
+                    return;
+                }
+            }
+
+            smoothMovement = Vector2.zero;
+            currentMovement = Vector3.zero;
+            isClimbing = true;
+            targetTilt = 0;
+            Climb(climbPos);
+        }
+    }
+
+    private void Climb(Vector3 newPosition)
+    {
+        Vector3 hangPos = newPosition;
+        hangPos.y += hangPosOffset.y;
+        hangPos += transform.forward * hangPosOffset.z;
+        transform.DOMove(hangPos, 0.2f).OnComplete(
+            () => transform.DOMove(newPosition, 1).OnComplete(
+                () => {isClimbing = false;}));
+        animator.SetTrigger("climb");
     }
 
     //Called when "Dash"
@@ -392,20 +487,28 @@ public class ActionCharacter : MonoBehaviour
             return;
         }
 
+        //Ledge Climb
+        if(isJumping && isJumpPressed && !characterController.isGrounded && !isClimbing)
+        {
+            CheckForLedge();
+        }
+
         if(!isJumping && characterController.isGrounded && isJumpPressed)
         {
             isJumping = true;
             currentMovement.y = initialJumpVelocity;
+            walkSpeed *= 1.6f;
         } else if (!isJumpPressed && isJumping && characterController.isGrounded)
         {
             isJumping = false;
+            walkSpeed /= 1.6f;
         }
     }
 
     //Character Rotation
     void handleRotation()
     {
-        if (!isDashing)
+        if (!isDashing && !isClimbing)
         {
             Vector3 positionToLookAt;
 
@@ -462,7 +565,7 @@ public class ActionCharacter : MonoBehaviour
     //Gravity control
     void handleGravity()
     {
-        if(isGodMode)
+        if(isGodMode || isClimbing)
             return;
 
         bool isFalling = currentMovement.y <= 0.0f || !isJumpPressed;
@@ -495,6 +598,13 @@ public class ActionCharacter : MonoBehaviour
     {
         if (isDashing)
         {
+            return;
+        }
+
+        if(isSliding) 
+        {
+            Debug.Log("CAEE");
+            currentMovement += new Vector3(hitPointNormal.x, -hitPointNormal.y, hitPointNormal.z) * slopeSpeed;
             return;
         }
 
@@ -548,8 +658,10 @@ public class ActionCharacter : MonoBehaviour
         handlePhysics();
 
         //Move the character
-        characterController.Move(currentMovement * Time.deltaTime);
-        
+        if(!isClimbing)
+        {  
+            characterController.Move(currentMovement * Time.deltaTime);
+        }
         //Apply gravity
         handleGravity();
         handleJump();
@@ -669,12 +781,15 @@ public class ActionCharacter : MonoBehaviour
         Gizmos.color = Color.green;
         //Gizmos.DrawRay(transform.position, -Vector3.up.normalized * distanceToGround);
         Gizmos.DrawWireSphere(transform.position + distanceToGround, groundedRadius);
+    
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(characterController.ClosestPointOnBounds(transform.position), 0.2f);
 
         //Wall Detection collider
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position + wallDetectionBoxPosition, wallDetectionBoxExtents);
-
         Gizmos.matrix = transform.localToWorldMatrix;
+
+        Gizmos.color = isCollidingWall? Color.green : Color.red;
+        Gizmos.DrawWireCube(Vector3.zero + wallDetectionBoxPosition, wallDetectionBoxExtents);
 
         //Ledge Height check
         Vector3 startPos = ledgeStartHeight - (Vector3.right * ledgeSpread);
@@ -687,6 +802,7 @@ public class ActionCharacter : MonoBehaviour
 
         //Roof Check
         Vector3 roofPos = roofCheckPos;
+        Gizmos.color = isRoof? Color.red : Color.green;
         Gizmos.DrawLine(roofPos, roofPos + Vector3.down * roofCheckLenght);
     }
 }
