@@ -37,6 +37,8 @@ public class ActionCharacter : MonoBehaviour
 
     //Variables: movimiento
     public float walkSpeed = 15.0f;
+    public float jumpAirSpeed = 3.5f;
+    private float currentSpeed;
     public float rotationSpeed = 15.0f;
     public float tiltSpeed = 15.0f;
     public float runMultiplier = 3.0f;
@@ -85,6 +87,7 @@ public class ActionCharacter : MonoBehaviour
     public Vector3 distanceToGround;
     public float groundedRadius;
     public LayerMask groundLayer;
+    private Vector3 collisionPoint;
 
     [Space(20)]
     [Header("Dash")]
@@ -147,7 +150,7 @@ public class ActionCharacter : MonoBehaviour
     {
         get
         {
-            if(characterController.isGrounded && Physics.Raycast(characterController.ClosestPointOnBounds(transform.position), Vector3.down, out RaycastHit slopeHit, 1f))
+            if(Physics.Raycast(collisionPoint + transform.position, Vector3.down, out RaycastHit slopeHit, 1f, ledgeLayer))
             {
                 hitPointNormal = slopeHit.normal;
                 return Vector3.Angle(hitPointNormal, Vector3.up) > characterController.slopeLimit;
@@ -209,6 +212,9 @@ public class ActionCharacter : MonoBehaviour
         playerInput.CharacterControls.GoToLevel2.performed += (x) => {SceneManager.LoadScene("level2_prototype");};
         playerInput.CharacterControls.GoToLevel3.performed += (x) => {SceneManager.LoadScene("level3_prototype");};
         playerInput.UIControls.Pause.performed += (x) => {GameManager.Instance.SwitchPause();};
+
+        //Initialize speed
+        currentSpeed = walkSpeed;
 
         setupJumpVariables();
     }
@@ -497,11 +503,14 @@ public class ActionCharacter : MonoBehaviour
         {
             isJumping = true;
             currentMovement.y = initialJumpVelocity;
-            walkSpeed *= 1.6f;
+            currentSpeed = jumpAirSpeed;
         } else if (!isJumpPressed && isJumping && characterController.isGrounded)
         {
+            currentSpeed = walkSpeed;
             isJumping = false;
-            walkSpeed /= 1.6f;
+        } else if (isJumping && characterController.isGrounded)
+        {
+            currentSpeed = walkSpeed;
         }
     }
 
@@ -573,24 +582,13 @@ public class ActionCharacter : MonoBehaviour
 
         //Apply gravity
         //Euler integration (may have to change it to Velocity Verlet. Btw, not causing significant problems rn)
-        if (characterController.isGrounded)
+        if (characterController.isGrounded && !isSliding)
         {          
             currentMovement.y = groundedGravity;
         } else if (isFalling) {
             currentMovement.y += gravity * Time.deltaTime * fallMultiplier;
         } else {
             currentMovement.y += gravity * Time.deltaTime;
-        }
-
-        //Dashing stops falling
-        if (isDashing)
-        {
-            float Yvelocity = currentMovement.y;
-
-            if (Yvelocity < 0)
-                Yvelocity = 0;
-
-            currentMovement.y = Yvelocity;
         }
     }
 
@@ -599,29 +597,29 @@ public class ActionCharacter : MonoBehaviour
         if (isDashing)
         {
             return;
-        }
+        }        
+
+        Vector2 targetMovement = currentMovementInput;
 
         if(isSliding) 
         {
             Debug.Log("CAEE");
-            currentMovement += new Vector3(hitPointNormal.x, -hitPointNormal.y, hitPointNormal.z) * slopeSpeed;
-            return;
+            targetMovement += new Vector2(hitPointNormal.x, hitPointNormal.z) * slopeSpeed;
         }
 
-        Vector2 targetMovement = currentMovementInput;
-
         //Sprint
-        if (isRunPressed)
+        if (isRunPressed && !isSliding)
         {
             targetMovement *= runMultiplier;
         }
+
 
         //Interpolation
         smoothMovement = Vector2.SmoothDamp(smoothMovement, targetMovement, ref velocity, easeFactor);
 
         //Add walk speed
-        currentMovement.x = smoothMovement.x * walkSpeed;
-        currentMovement.z = smoothMovement.y * walkSpeed;
+        currentMovement.x = smoothMovement.x * currentSpeed;
+        currentMovement.z = smoothMovement.y * currentSpeed;
     }
 
     private void handleAnimation()
@@ -774,6 +772,11 @@ public class ActionCharacter : MonoBehaviour
         animator.SetInteger("combo", currentCombo);
     }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit) {
+        collisionPoint = hit.point;
+        collisionPoint = (collisionPoint - transform.position);
+    }
+
     //Gizmos
     void OnDrawGizmosSelected()
     {
@@ -783,7 +786,7 @@ public class ActionCharacter : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position + distanceToGround, groundedRadius);
     
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(characterController.ClosestPointOnBounds(transform.position), 0.2f);
+        Gizmos.DrawWireSphere(collisionPoint + transform.position, 0.2f);
 
         //Wall Detection collider
         Gizmos.matrix = transform.localToWorldMatrix;

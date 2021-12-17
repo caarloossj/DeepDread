@@ -446,9 +446,10 @@ MonoBehaviour:
   roofCheckPos: {x: 0, y: 3.36, z: 0.1}
   roofCheckLenght: 1.6
   ledgeMaxHeight: 1.2
-  ledgeSpread: 0.26
+  ledgeSpread: 0.1
   maxSurfaceTilt: 2
   hangPosOffset: {x: 0, y: -1.52, z: -0.5}
+  slopeSpeed: 3
   dashSound: {fileID: 8300000, guid: 9b18d400b95364d4eaa65eaca2d24866, type: 3}
 --- !u!82 &1938110955
 AudioSource:
