@@ -114,14 +114,14 @@ public class ActionCamera : MonoBehaviour
             {
                 componentBase.m_CameraDistance = x;
             },
-            isOut ? 6.6f : 4f, .9f).SetEase(Ease.InSine));
+            isOut ? cameraFarOffset.z : cameraNearOffset.z, .9f).SetEase(Ease.InSine));
 
         zoomOut.Join(DOTween.To(() => componentBase.m_ScreenX,
             y =>
             {
                 componentBase.m_ScreenX = y;
             },
-            isOut ? 0.5f : 0.4f, .9f).SetEase(Ease.InSine));
+            isOut ? cameraFarOffset.x : cameraNearOffset.x, .9f).SetEase(Ease.InSine));
         zoomOut.SetDelay(isInCombat ? 0 : 0.8f);
     }
 }

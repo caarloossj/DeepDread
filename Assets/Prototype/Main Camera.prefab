@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 2177986487353845331}
   - component: {fileID: 2177986487353845342}
   - component: {fileID: 2177986487353845343}
-  m_Layer: 0
+  - component: {fileID: 2055829871}
+  - component: {fileID: 2055829872}
+  m_Layer: 5
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -27,13 +29,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2177986487353845330}
-  m_LocalRotation: {x: 0.19131668, y: -0.68073344, z: 0.1913167, w: 0.6807333}
+  m_LocalRotation: {x: 0.19131964, y: -0.68073255, z: 0.19131964, w: 0.68073255}
   m_LocalPosition: {x: 3.3922343, y: 6.6322255, z: 0.00000074770867}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 10.493, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 31.396, y: -90, z: 0}
 --- !u!20 &2177986487353845328
 Camera:
   m_ObjectHideFlags: 0
@@ -57,9 +59,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0.01
   far clip plane: 5000
-  field of view: 40
+  field of view: 50
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -151,3 +153,128 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2055829871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2177986487353845330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a83ca9e4087b24084faaf29ea2d22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.0769966
+      outSlope: 2.0769966
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.11299692
+    - serializedVersion: 3
+      time: 0.23582286
+      value: 0.2511648
+      inSlope: 0.12707467
+      outSlope: 0.12707467
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3226249
+      outWeight: 0.096088834
+    - serializedVersion: 3
+      time: 0.55124426
+      value: -0.051451024
+      inSlope: 0.06653429
+      outSlope: 0.06653429
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.48569086
+    - serializedVersion: 3
+      time: 0.9973755
+      value: 0.00064086914
+      inSlope: 0.02768377
+      outSlope: 0.02768377
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.17201357
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  cinemachine: {fileID: 0}
+  storyboard: {fileID: 0}
+  cameraNearOffset: {x: 0.4, y: 0, z: 4.43}
+  cameraFarOffset: {x: 0.5, y: 0, z: 1}
+--- !u!114 &2055829872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2177986487353845330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd438dd108a0f284aa931a2da434f1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    m_AmplitudeGain: 3
+    m_FrequencyGain: 0.1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0
+      m_DecayTime: 0.5
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
+    m_PropagationSpeed: 343
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: 
+  m_UseImpactDirection: 0
+  m_ScaleImpactWithMass: 0
+  m_ScaleImpactWithSpeed: 0

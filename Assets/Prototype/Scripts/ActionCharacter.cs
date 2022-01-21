@@ -192,6 +192,7 @@ public class ActionCharacter : MonoBehaviour
     {
         Time.timeScale = 1f;
         Application.targetFrameRate = -1;
+        Cursor.lockState = CursorLockMode.Locked;
 
         //Assign references
         playerInput = new PlayerInput();
@@ -294,6 +295,8 @@ public class ActionCharacter : MonoBehaviour
             if (currentCombo >= comboMax)
                 return;
 
+            actionCamera.Zoom(0.7f, 60);
+
             //Seek best enemy target
             //GameObject targetEnemy = SeekEnemy();
 
@@ -337,7 +340,6 @@ public class ActionCharacter : MonoBehaviour
         {
             //Camera Shake
             //actionCamera.Shake(1.8f, 1);
-            //actionCamera.Zoom(0.5f, 48);
 
             //Hit particle
             //var hitFx = Instantiate(hitFX, transform.position + transform.forward * hitFxOffest + transform.up * .2f, Quaternion.identity);
@@ -366,7 +368,7 @@ public class ActionCharacter : MonoBehaviour
     {
         ExecuteDash(comboDashes[currentCombo-1]);
 
-        StartCoroutine(lookTarget.Freeze(0.14f));
+        //StartCoroutine(lookTarget.Freeze(0.14f));
     }
 
     //Sprint
@@ -504,6 +506,7 @@ public class ActionCharacter : MonoBehaviour
             isJumping = true;
             currentMovement.y = initialJumpVelocity;
             currentSpeed = jumpAirSpeed;
+            animator.SetTrigger("jump");
         } else if (!isJumpPressed && isJumping && characterController.isGrounded)
         {
             currentSpeed = walkSpeed;
@@ -624,6 +627,8 @@ public class ActionCharacter : MonoBehaviour
 
     private void handleAnimation()
     {
+        if(isClimbing) return;
+
         animator.SetBool("isFalling", !isFloorBelow);
 
         //Change blendtree's vlaue
@@ -774,6 +779,7 @@ public class ActionCharacter : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit) {
         collisionPoint = hit.point;
+        collisionPoint += Vector3.up * 0.2f;
         collisionPoint = (collisionPoint - transform.position);
     }
 
