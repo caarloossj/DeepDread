@@ -37,7 +37,7 @@ public class ActionCamera : MonoBehaviour
     {
         cinemachineNoise = GetComponent<CinemachineImpulseSource>();
         characterController = ActionCharacter.Instance.characterController;
-        componentBase = (CinemachineFramingTransposer)cinemachine.GetCinemachineComponent(CinemachineCore.Stage.Body);
+        ResetCamera();
 
         DOTween.To(() => storyboard.m_Alpha,
             x =>
@@ -45,6 +45,11 @@ public class ActionCamera : MonoBehaviour
                 storyboard.m_Alpha = x;
             },
             0, 3.4f).SetEase(Ease.Linear);
+    }
+
+    public void ResetCamera()
+    {
+        componentBase = (CinemachineFramingTransposer)cinemachine.GetCinemachineComponent(CinemachineCore.Stage.Body);
     }
 
     private void Update() {

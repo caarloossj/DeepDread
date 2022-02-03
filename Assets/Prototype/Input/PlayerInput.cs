@@ -97,6 +97,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""TargetLock"",
+                    ""type"": ""Button"",
+                    ""id"": ""88c1b0ef-a7af-402f-81e8-65f202b97e54"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -308,6 +316,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""GoToLevel3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9415097f-9580-4a12-86dd-904585cca3db"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TargetLock"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -353,6 +372,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_CharacterControls_GoToLevel1 = m_CharacterControls.FindAction("GoToLevel1", throwIfNotFound: true);
         m_CharacterControls_GoToLevel2 = m_CharacterControls.FindAction("GoToLevel2", throwIfNotFound: true);
         m_CharacterControls_GoToLevel3 = m_CharacterControls.FindAction("GoToLevel3", throwIfNotFound: true);
+        m_CharacterControls_TargetLock = m_CharacterControls.FindAction("TargetLock", throwIfNotFound: true);
         // UIControls
         m_UIControls = asset.FindActionMap("UIControls", throwIfNotFound: true);
         m_UIControls_Pause = m_UIControls.FindAction("Pause", throwIfNotFound: true);
@@ -415,6 +435,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_CharacterControls_GoToLevel1;
     private readonly InputAction m_CharacterControls_GoToLevel2;
     private readonly InputAction m_CharacterControls_GoToLevel3;
+    private readonly InputAction m_CharacterControls_TargetLock;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -429,6 +450,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @GoToLevel1 => m_Wrapper.m_CharacterControls_GoToLevel1;
         public InputAction @GoToLevel2 => m_Wrapper.m_CharacterControls_GoToLevel2;
         public InputAction @GoToLevel3 => m_Wrapper.m_CharacterControls_GoToLevel3;
+        public InputAction @TargetLock => m_Wrapper.m_CharacterControls_TargetLock;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,6 +490,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @GoToLevel3.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnGoToLevel3;
                 @GoToLevel3.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnGoToLevel3;
                 @GoToLevel3.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnGoToLevel3;
+                @TargetLock.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnTargetLock;
+                @TargetLock.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnTargetLock;
+                @TargetLock.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnTargetLock;
             }
             m_Wrapper.m_CharacterControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -502,6 +527,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @GoToLevel3.started += instance.OnGoToLevel3;
                 @GoToLevel3.performed += instance.OnGoToLevel3;
                 @GoToLevel3.canceled += instance.OnGoToLevel3;
+                @TargetLock.started += instance.OnTargetLock;
+                @TargetLock.performed += instance.OnTargetLock;
+                @TargetLock.canceled += instance.OnTargetLock;
             }
         }
     }
@@ -551,6 +579,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnGoToLevel1(InputAction.CallbackContext context);
         void OnGoToLevel2(InputAction.CallbackContext context);
         void OnGoToLevel3(InputAction.CallbackContext context);
+        void OnTargetLock(InputAction.CallbackContext context);
     }
     public interface IUIControlsActions
     {

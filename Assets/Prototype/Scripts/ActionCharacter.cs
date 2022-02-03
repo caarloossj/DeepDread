@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class ActionCharacter : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class ActionCharacter : MonoBehaviour
     [Space(20)]
 
     //Variables: referencias
-    //Variables: referencias
     public Animator animator;
     PlayerAudioManager playerAudioManager;
     public Transform thirdPersonCamera;
@@ -27,6 +27,8 @@ public class ActionCharacter : MonoBehaviour
     [HideInInspector]
     public CharacterController characterController;
     public ParticleSystem windParticles;
+    public CinemachineVirtualCamera normalCamera;
+    public CinemachineVirtualCamera lockCamera;
 
     [Space(20)]
     [Header("Movement")]
@@ -46,6 +48,7 @@ public class ActionCharacter : MonoBehaviour
     //Variables: input del jugador
     Vector2 currentMovementInput = Vector2.zero;
     Vector2 lastMovementInput = new Vector2(0,1);
+    Vector2 rawInput;
     private Vector2 smoothMovement = Vector2.zero;
     Vector3 currentMovement;
     private float blendSmooth = 0;
@@ -112,7 +115,9 @@ public class ActionCharacter : MonoBehaviour
     private IEnumerator comboReset;
     private IEnumerator resetMovement;
     private Tween attackTween;
-    //public EnemyBase enemyTarget;
+    public Vector3 damageBoxExtents;
+    public Vector3 damageBoxOffset;
+    public Transform targetLocked;
 
     [Space(20)]
     [Header("FX")]
@@ -130,6 +135,7 @@ public class ActionCharacter : MonoBehaviour
 
     //Wall detection
     public LayerMask ledgeLayer;
+    public LayerMask hangLayer;
     public Vector3 wallDetectionBoxExtents;
     public Vector3 wallDetectionBoxPosition;
     public Vector3 ledgeStartHeight;
@@ -140,8 +146,10 @@ public class ActionCharacter : MonoBehaviour
     private bool isCollidingWall = false;
     private bool isRoof = false;
     private bool isClimbing = false;
+    private bool isHanging = false;
     public float maxSurfaceTilt;
     public Vector3 hangPosOffset;
+    public Vector3 hangPosOffset2;
 
     //Sliding Slopes
     public float slopeSpeed;
@@ -207,6 +215,7 @@ public class ActionCharacter : MonoBehaviour
         playerInput.CharacterControls.Jump.canceled += OnJump;
         playerInput.CharacterControls.Attack.performed += OnAttack;
         playerInput.CharacterControls.SwitchGod.performed += OnChangeGodMode;
+        playerInput.CharacterControls.TargetLock.performed += context => TargetLock();
 
         //Levels (Need to move to manager)
         playerInput.CharacterControls.GoToLevel1.performed += (x) => {SceneManager.LoadScene("level1_prototype");};
@@ -266,6 +275,8 @@ public class ActionCharacter : MonoBehaviour
         //Obtain movement from input
         currentMovementInput = context;
 
+        rawInput = context;
+
         //Obtener direccion de la camara
         var cameraForward = thirdPersonCamera.transform.forward;
         cameraForward.y = 0;
@@ -281,10 +292,52 @@ public class ActionCharacter : MonoBehaviour
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
     }
 
+    //TargetLock
+    private void TargetLock()
+    {
+        //if is locked, unlock
+        if(targetLocked != null)
+        {
+            targetLocked = null;
+            actionCamera.cinemachine = normalCamera;
+            
+            lockCamera.m_Priority = 1;
+            normalCamera.m_Priority = 10;
+
+            actionCamera.ResetCamera();
+        }
+        else
+        {
+            //Get nearest enemy in range
+            Collider[] enemies = Physics.OverlapSphere(transform.position, 8, enemyLayerMask);
+
+            if(enemies.Length > 0)
+            {
+                float closestDist = 100;
+                foreach (var enemy in enemies)
+                {
+                    float dist = Vector3.Distance(transform.position, enemy.transform.position);
+                    if(dist < closestDist)
+                    {
+                        closestDist = dist;
+                        targetLocked = enemy.transform;
+                    }
+                }
+
+                lockCamera.m_LookAt = targetLocked;
+                actionCamera.cinemachine = lockCamera;
+
+                lockCamera.m_Priority = 10;
+                normalCamera.m_Priority = 1;
+                actionCamera.ResetCamera();
+            }
+        }
+    }
+
     //Ataque
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if(!isFloorBelow)
+        if(!isFloorBelow || isClimbing || isHanging)
             return;
 
         CheckNewAttack();
@@ -335,16 +388,28 @@ public class ActionCharacter : MonoBehaviour
 
     public void DoDamage()
     {
-        //TODO: If enemy
-        if (true)
+        Vector3 boxPos = transform.position;
+        boxPos += transform.forward * damageBoxOffset.z;
+        boxPos += transform.up * damageBoxExtents.y;
+
+        Collider[] enemies = Physics.OverlapBox(boxPos, damageBoxExtents/2, transform.rotation, enemyLayerMask);
+
+        Debug.Log("ataco");
+
+        if(enemies.Length > 0)
         {
             //Camera Shake
-            //actionCamera.Shake(1.8f, 1);
-
-            //Hit particle
-            //var hitFx = Instantiate(hitFX, transform.position + transform.forward * hitFxOffest + transform.up * .2f, Quaternion.identity);
-            //Destroy(hitFx.gameObject, 1);
+            actionCamera.Shake(1.8f, 1);
+            Debug.Log("dañado");
+            foreach (var enemy in enemies)
+            {
+                enemy.GetComponent<EnemyBase>().OnHit(1,transform.position);
+            }
         }
+
+        //Hit particle
+        //var hitFx = Instantiate(hitFX, transform.position + transform.forward * hitFxOffest + transform.up * .2f, Quaternion.identity);
+        //Destroy(hitFx.gameObject, 1);
     }
 
     //Used to reset movement after DoTween
@@ -381,6 +446,11 @@ public class ActionCharacter : MonoBehaviour
     private void OnJump(InputAction.CallbackContext context)
     {
         isJumpPressed = context.ReadValueAsButton();
+
+        if(isHanging && isJumping)
+        {
+            StopHang();
+        }
 
         targetTilt = 0;
     }
@@ -460,7 +530,7 @@ public class ActionCharacter : MonoBehaviour
     //Called when "Dash"
     private void OnRoll(InputAction.CallbackContext context)
     {
-        if (isDashing)
+        if (isDashing || isHanging || isClimbing || isAttacking)
             return;
 
         //Trigger dash animation
@@ -496,12 +566,13 @@ public class ActionCharacter : MonoBehaviour
         }
 
         //Ledge Climb
-        if(isJumping && isJumpPressed && !characterController.isGrounded && !isClimbing)
+        if(isJumping && isJumpPressed && !characterController.isGrounded && !isClimbing && !isHanging)
         {
+            if(CheckForHang()) return;
             CheckForLedge();
         }
 
-        if(!isJumping && characterController.isGrounded && isJumpPressed)
+        if(!isJumping && (characterController.isGrounded || isHanging) && isJumpPressed)
         {
             isJumping = true;
             currentMovement.y = initialJumpVelocity;
@@ -517,10 +588,59 @@ public class ActionCharacter : MonoBehaviour
         }
     }
 
+    private bool CheckForHang()
+    {
+        Vector3 boxPos = new Vector3(transform.forward.x * wallDetectionBoxPosition.z, wallDetectionBoxPosition.y, transform.forward.z * wallDetectionBoxPosition.z);
+        Collider[] col = Physics.OverlapBox(transform.position + boxPos, wallDetectionBoxExtents/2, transform.rotation, hangLayer);
+
+        foreach (var collision in col)
+        {
+            if(hangLayer == (hangLayer | (1 << collision.gameObject.layer)))
+            {
+                StartHang(collision.transform);
+                Debug.Log("asdf");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void StartHang(Transform obj)
+    {
+        smoothMovement = Vector2.zero;
+        currentMovement = Vector3.zero;
+        targetTilt = 0;
+        isHanging = true;
+
+        Physics.IgnoreLayerCollision(3, 6, true);
+
+        animator.SetBool("isHanging", true);
+
+        var plane = new Plane(-obj.forward, obj.position);
+
+        plane.ClosestPointOnPlane(transform.position); 
+
+        Vector3 newPos = plane.ClosestPointOnPlane(transform.position);;
+        newPos.y = obj.position.y + hangPosOffset2.y;
+        newPos += obj.forward * hangPosOffset2.z;
+        
+        transform.DOLocalMove(newPos, .2f);
+        transform.DORotateQuaternion(obj.rotation, 0.1f);
+    }
+
+    private void StopHang()
+    {
+        isHanging = false;
+        isJumping = false;
+        currentSpeed = walkSpeed;
+        animator.SetBool("isHanging", false);
+        Physics.IgnoreLayerCollision(3, 6, false);
+    }
+    
     //Character Rotation
     void handleRotation()
     {
-        if (!isDashing && !isClimbing)
+        if (!isDashing && !isClimbing && !isHanging)
         {
             Vector3 positionToLookAt;
 
@@ -577,7 +697,7 @@ public class ActionCharacter : MonoBehaviour
     //Gravity control
     void handleGravity()
     {
-        if(isGodMode || isClimbing)
+        if(isGodMode || isClimbing || isHanging)
             return;
 
         bool isFalling = currentMovement.y <= 0.0f || !isJumpPressed;
@@ -597,6 +717,11 @@ public class ActionCharacter : MonoBehaviour
 
     private void handlePhysics()
     {
+        if(isHanging)
+        {
+            return;
+        }
+        
         if (isDashing)
         {
             return;
@@ -628,6 +753,13 @@ public class ActionCharacter : MonoBehaviour
     private void handleAnimation()
     {
         if(isClimbing) return;
+        
+        if(isHanging)
+        {
+            animator.SetFloat("movementSpeed", rawInput.x);
+            currentMovement = transform.right * rawInput.x * 1.4f;
+            return;
+        }
 
         animator.SetBool("isFalling", !isFloorBelow);
 
@@ -799,6 +931,10 @@ public class ActionCharacter : MonoBehaviour
 
         Gizmos.color = isCollidingWall? Color.green : Color.red;
         Gizmos.DrawWireCube(Vector3.zero + wallDetectionBoxPosition, wallDetectionBoxExtents);
+
+        Gizmos.color = Color.black;
+
+        Gizmos.DrawWireCube(Vector3.zero + damageBoxOffset, damageBoxExtents);
 
         //Ledge Height check
         Vector3 startPos = ledgeStartHeight - (Vector3.right * ledgeSpread);
