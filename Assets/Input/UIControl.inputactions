@@ -1,0 +1,74 @@
+{
+    "name": "UIControl",
+    "maps": [
+        {
+            "name": "UI",
+            "id": "6739e0f0-4c3f-4e79-ab04-46257a6a5419",
+            "actions": [
+                {
+                    "name": "TextSkip",
+                    "type": "Button",
+                    "id": "1b544958-6ca4-42ea-ad56-e26050e1b7f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Return",
+                    "type": "Button",
+                    "id": "5e9b3b2a-1f36-4bf6-997c-1cfacb2c35fe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c05393d7-478e-4221-af0f-985880339ebc",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TextSkip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de014589-a770-4d6a-a2a4-511bd04aa589",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TextSkip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bceca12c-b716-41ed-a4cb-39b5479c6a89",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TextSkip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9762ff75-6c6f-4adb-92fd-7c1f2510a9a9",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Return",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
