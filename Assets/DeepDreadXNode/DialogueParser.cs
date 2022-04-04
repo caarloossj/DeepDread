@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using Dialogue;
+using System;
+using UnityEngine.Playables;
 
 public class DialogueParser : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public class DialogueParser : MonoBehaviour
     public TextMeshProUGUI tmpro_dialogue;
     public TextMeshProUGUI tmpro_name;
     private UIInputHandler inputHandler;
+    public PlayableDirector playableDirector;
     [SerializeField] private float baseDefaultHeight = 128;
     [SerializeField] private float baseLineHeight = 20;
     [SerializeField] private float baseMinHeight = 124;
@@ -30,6 +33,9 @@ public class DialogueParser : MonoBehaviour
     //Debug Only
     private void Start() {
         StartDialogue();
+
+        //Pause timeline
+        playableDirector.playableGraph.GetRootPlayable(0).SetSpeed(0);
     }
 
     private void SkipText()
@@ -106,9 +112,17 @@ public class DialogueParser : MonoBehaviour
                 DialogueBar.SetActive(true);
                 CreateNewBox();
                 break;
+            case xStopNode s:
+                StopDialogue();
+                break;
         }
     }
 
+    private void StopDialogue()
+    {
+        Debug.Log("End");
+        playableDirector.playableGraph.GetRootPlayable(0).SetSpeed(1);
+    }
 
     private void OnEnable() {
         inputHandler.UIControls.UI.TextSkip.performed += context => SkipText();

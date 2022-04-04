@@ -86,7 +86,10 @@ MonoBehaviour:
       _node: {fileID: -7385163507049405087}
       _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
-      connections: []
+      connections:
+      - fieldName: Entry
+        node: {fileID: 7488915858003778317}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -323,6 +326,7 @@ MonoBehaviour:
   - {fileID: -4387708803051967780}
   - {fileID: -7385163507049405087}
   - {fileID: 4648392790483401478}
+  - {fileID: 7488915858003778317}
   current: {fileID: -6943656289825725376}
 --- !u!114 &1769920979897412664
 MonoBehaviour:
@@ -609,3 +613,35 @@ MonoBehaviour:
   character: {fileID: 11400000, guid: 04bedc23091ed3e4fa76df03395eea4e, type: 2}
   dialogueText: "\xBFPuedes decirme c\xF3mo he llegado hasta aqu\xED?"
   isSkippable: 1
+--- !u!114 &7488915858003778317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a4cbffa713383d4e9ca4bca1fec7932, type: 3}
+  m_Name: X Stop
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 2936, y: 152}
+  ports:
+    keys:
+    - Entry
+    values:
+    - _fieldName: Entry
+      _node: {fileID: 7488915858003778317}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: -7385163507049405087}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+      _list: 0
+  Entry: 0

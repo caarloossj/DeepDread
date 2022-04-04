@@ -16431,8 +16431,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 20a705aea2d80e0478fb89b6f43d8530, type: 2}
   m_PivotOffset: {x: 0, y: 0, z: 0}
-  m_AmplitudeGain: 0.6
-  m_FrequencyGain: 1
+  m_AmplitudeGain: 0.3
+  m_FrequencyGain: 0.4
   mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &1442805922
 MonoBehaviour:
@@ -17472,6 +17472,60 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8041dd555e5fcde419e72050809e8e27, type: 3}
   m_PrefabInstance: {fileID: 1536026187}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1540815536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1540815538}
+  - component: {fileID: 1540815537}
+  m_Layer: 0
+  m_Name: Timeline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!320 &1540815537
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540815536}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: ce7a898cd5e30944198b98d6aaaf7238, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 8135087966947252972, guid: ce7a898cd5e30944198b98d6aaaf7238, type: 2}
+    value: {fileID: 1662392124}
+  - key: {fileID: -1215444935721122040, guid: ce7a898cd5e30944198b98d6aaaf7238, type: 2}
+    value: {fileID: 2006958131}
+  - key: {fileID: -925897740929946148, guid: ce7a898cd5e30944198b98d6aaaf7238, type: 2}
+    value: {fileID: 1474566775}
+  m_ExposedReferences:
+    m_References: []
+--- !u!4 &1540815538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540815536}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 30
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1550162296
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19533,7 +19587,7 @@ MonoBehaviour:
   m_ShowImage: 1
   m_Image: {fileID: 2800000, guid: fee81ef025afaa34ea32be475c3c0155, type: 3}
   m_Aspect: 0
-  m_Alpha: 1
+  m_Alpha: 1.014578
   m_Center: {x: 0, y: 0}
   m_Rotation: {x: 0, y: 0, z: 0}
   m_Scale: {x: 1.99, y: 1}
@@ -24744,6 +24798,7 @@ MonoBehaviour:
   typer: {fileID: 1639598294}
   tmpro_dialogue: {fileID: 1639598295}
   tmpro_name: {fileID: 605197833}
+  playableDirector: {fileID: 1540815537}
   baseDefaultHeight: 84
   baseLineHeight: 20
   baseMinHeight: 124
