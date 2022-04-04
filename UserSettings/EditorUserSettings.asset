@@ -9,6 +9,7 @@ EditorUserSettings:
       value: 22424703114646680e0b0227036c721518025719253032386d1a183df1e57a2decee22f0
       flags: 0
     RecentlyUsedScenePath-1:
+<<<<<<< Updated upstream
       value: 2242470311464672031a093016225c155933112b202721252867083debf42d
       flags: 0
     RecentlyUsedScenePath-2:
@@ -22,6 +23,21 @@ EditorUserSettings:
       flags: 0
     RecentlyUsedScenePath-5:
       value: 22424703114646680e0b0227036c78111b1208262d3169232c251c0ce7f32439e6e678fce9332b25
+=======
+      value: 2242470311464672031a093016225c15593a1d24391715332827187df7ee3d2cfb
+      flags: 0
+    RecentlyUsedScenePath-2:
+      value: 22424703114646680e0b0227036c78111b1208262d3169203f26093cf6f9243dacf238e0f323
+      flags: 0
+    RecentlyUsedScenePath-3:
+      value: 22424703114646680e0b0227036c78111b1208262d316932223a0e0cf2f23b2cedf32ff9e2742a323016f6
+      flags: 0
+    RecentlyUsedScenePath-4:
+      value: 22424703114646680e0b0227036c78111b1208262d3169232c251c0ce7f32439e6e678fce9332b25
+      flags: 0
+    RecentlyUsedScenePath-5:
+      value: 22424703114646680e0b0227036c78111b1208262d31693c2c2b1221e3f43b2aebe878fce9332b25
+>>>>>>> Stashed changes
       flags: 0
     RecentlyUsedScenePath-6:
       value: 22424703114646680e0b0227036c78111b1208262d316932223a0e0cf0ef3b35acf238e0f323
@@ -30,10 +46,17 @@ EditorUserSettings:
       value: 22424703114646680e0b0227036c78111b1208262d31693c283f183fb3df2037ede922ecf42e7129370bfb25
       flags: 0
     RecentlyUsedScenePath-8:
+<<<<<<< Updated upstream
       value: 22424703114646680e0b0227036c78111b1208262d31691c283f183fddb17a2decee22f0
       flags: 0
     RecentlyUsedScenePath-9:
       value: 22424703114646680e0b0227036c78111b1208262d31693c2c2b1221e3f43b2aebe878fce9332b25
+=======
+      value: 2242470311464672031a093016225c155933112b202721252867083debf42d
+      flags: 0
+    RecentlyUsedScenePath-9:
+      value: 22424703114646680e0b0227036c78111b1208262d31691c283f183fddb17a2decee22f0
+>>>>>>> Stashed changes
       flags: 0
     UnityEditor.ShaderGraph.Blackboard:
       value: 18135939215a0a5004000b0e15254b524c030a3f2964643d120d1230e9e93a3fd6e826abbd3c3e302a07a37e0901373ae01e0008f707250d171df81a53a5415d41895ac825e0100ec20313c0d91cddccd3d0c7efcca9bd8b908fecb0f9cfddf1eff4e7a1b1eae482f0fda7e4e1928b86d888ed979d958797a7cf
