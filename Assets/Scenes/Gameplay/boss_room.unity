@@ -2505,6 +2505,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!4 &1067860652 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4425214845415361994, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
+  m_PrefabInstance: {fileID: 1460824092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1067860654 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7748911139714062256, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
+  m_PrefabInstance: {fileID: 1460824092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1089459594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3157,8 +3167,20 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3900774614958397296, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3900774615151846823, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3993032172523259402, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 37df41945c9731646b74ced574e47f60, type: 2}
+    - target: {fileID: 3993032172523259402, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
+      propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4243301286037643744, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
@@ -3210,9 +3232,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4243301286037643747, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1067860654}
+    - target: {fileID: 4243301286037643747, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
       propertyPath: lookTarget
       value: 
       objectReference: {fileID: 1701413878}
+    - target: {fileID: 4243301286037643747, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
+      propertyPath: playerModel
+      value: 
+      objectReference: {fileID: 1067860652}
     - target: {fileID: 4243301286037643747, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
       propertyPath: maxJumpHeight
       value: 2
