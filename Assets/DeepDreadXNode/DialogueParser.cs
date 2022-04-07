@@ -91,6 +91,19 @@ public class DialogueParser : MonoBehaviour
         baseTransform.sizeDelta = new Vector2(baseTransform.sizeDelta.x, height);
 
         typer.TypeText(node.dialogueText,.02f);
+
+        //Check Event
+        CheckEvents(node);
+    }
+
+    private void CheckEvents(xDialogueNode node)
+    {
+        if(node.GetPort("Event 0") != null)
+        {
+            xEventNode eventNode = node.GetPort("Event 0").Connection.node as xEventNode;
+            Debug.Log(eventNode.trigger);
+            GameObject.FindGameObjectWithTag("Robot").GetComponent<Animator>().SetTrigger(eventNode.trigger); 
+        }
     }
 
     private void NextNode(string portFieldName = "")

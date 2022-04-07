@@ -37,7 +37,7 @@ namespace Dialogue
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("font"));
                     break;
                 case EventType.Emotion:
-                    simpleNode.emotionIndex = EditorGUILayout.Popup(simpleNode.emotionIndex, simpleNode.emotions);
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("trigger"));
                     break;
             }
 

@@ -19,6 +19,7 @@ namespace Dialogue
         [Input] public int entry;
         public EventType eventType;
         public AudioClip audioClip;
+        public string trigger;
         public float shakeAmount;
         public Font font;
         public Color characterColor;

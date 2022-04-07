@@ -5604,7 +5604,7 @@ Transform:
   m_LocalScale: {x: 1.2741607, y: 1.2741607, z: 1.2741607}
   m_Children: []
   m_Father: {fileID: 1716796963}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &846771342
 MeshCollider:
@@ -9444,12 +9444,12 @@ Transform:
   m_LocalPosition: {x: 93.2, y: 2.58, z: 34.48}
   m_LocalScale: {x: 9.2598, y: 9.2598, z: 9.2598}
   m_Children:
+  - {fileID: 846771341}
   - {fileID: 182698994}
   - {fileID: 1028251284}
   - {fileID: 875001095}
   - {fileID: 147298575}
   - {fileID: 2033229434}
-  - {fileID: 846771341}
   - {fileID: 2054501751}
   - {fileID: 662827404}
   - {fileID: 2083685668}
