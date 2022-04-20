@@ -1,25 +1,33 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAudioManager : MonoBehaviour
 {
-    private AudioSource audioSource;
-    void Start()
+    public AudioClip Escalar;
+    public AudioClip Rodar;
+    public AudioClip Salto;
+    public AudioClip Caer;
+    public AudioClip Paso;
+    private Dictionary<string,AudioClip> soundDict = new Dictionary<string, AudioClip>();
+    private GlobalAudioManager audioManager;
+
+    void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        soundDict.Add("escalar", Escalar);
+        soundDict.Add("rodar", Rodar);
+        soundDict.Add("salto", Salto);
+        soundDict.Add("caer", Caer);
+        soundDict.Add("paso", Paso);
+
+        audioManager = FindObjectOfType<GlobalAudioManager>();
     }
 
-    public void AudioPlay(AudioClip audioClip, float volume, bool randomize)
+    public void AudioPlay(string audio)
     {
-        if(!randomize)
-        {
-            audioSource.pitch = 1;
-            audioSource.PlayOneShot(audioClip,volume);
-        } else
-        {
-            audioSource.pitch = (Random.Range(0.9f, 1.1f));
-            audioSource.PlayOneShot(audioClip, volume);
-        }
-    }
+        string[] str = audio.Split('_');
+
+        audioManager.AudioPlay(soundDict[str[0]], float.Parse(str[1]), str[2] == "1", transform.position);
+    }    
 }

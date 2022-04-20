@@ -169,12 +169,6 @@ public class ActionCharacter : MonoBehaviour
         }
     }
 
-    [Space(20)]
-    [Header("Sounds")]
-    [Space(20)]
-
-    public AudioClip dashSound;
-
     #endregion
    
    #region Singleton
@@ -538,8 +532,6 @@ public class ActionCharacter : MonoBehaviour
 
         //Execute the dash
         ExecuteDash(sprintDash);
-
-        playerAudioManager.AudioPlay(dashSound,.45f,false);
 
         //WindParticleBurst(10);
     }

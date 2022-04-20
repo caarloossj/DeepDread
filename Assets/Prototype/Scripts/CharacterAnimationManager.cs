@@ -29,11 +29,11 @@ public class CharacterAnimationManager : MonoBehaviour
         actionCharacter.DoDamage();
     }
 
-    public void PlayFootstep(AnimationEvent evt)
+    public void PlayAudio(AnimationEvent evt)
     {  
-        if (evt.animatorClipInfo.weight < 0.5)
+        if (evt.animatorClipInfo.weight < 0.5 && evt.animatorStateInfo.IsName("Base movement"))
             return;
 
-        playerAudioManager.AudioPlay(footstepSound, evt.floatParameter, true);
+        playerAudioManager.AudioPlay(evt.stringParameter);
     }
 }

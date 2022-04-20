@@ -12,11 +12,12 @@ public class AudioPool : PollingPool<AudioSource>
             return component.isPlaying;
         }
  
-        public void PlayAt(Vector3 point, Quaternion rotation)
+        public AudioSource GetAudioSource(Vector3 point)
         {
-            var system = Get();
+            var source = Get();
  
-            system.transform.position = point;
-            system.transform.rotation = rotation;
+            source.transform.position = point;
+
+            return source;
         }
     }

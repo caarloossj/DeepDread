@@ -35656,15 +35656,15 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.26666668
-    functionName: PlayFootstep
-    data: 
+    functionName: PlayAudio
+    data: paso_0,2_1
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0.9
     intParameter: 0
     messageOptions: 0
   - time: 0.6
-    functionName: PlayFootstep
-    data: 
+    functionName: PlayAudio
+    data: paso_0,2_1
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0.9
     intParameter: 0
