@@ -11,9 +11,11 @@ public class GlobalAudioManager : MonoBehaviour
         audioPool = new AudioPool(prefab);
     }
 
-    public void AudioPlay(AudioClip audio, float volume, bool randomize, Vector3 pos)
+    public void AudioPlay(AudioClip audio, float volume, bool randomize, Vector3 pos, bool spatial = true)
     {
         AudioSource audioSource = audioPool.GetAudioSource(pos);
+
+        audioSource.spatialBlend = spatial ? 1 : 0;
 
         if(!randomize)
         {

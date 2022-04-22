@@ -36,6 +36,7 @@ public class ActionCharacter : MonoBehaviour
 
     //GOD
     public bool isGodMode = false;
+    public bool dead = false;
 
     //Variables: movimiento
     public float walkSpeed = 15.0f;
@@ -50,7 +51,7 @@ public class ActionCharacter : MonoBehaviour
     Vector2 lastMovementInput = new Vector2(0,1);
     Vector2 rawInput;
     private Vector2 smoothMovement = Vector2.zero;
-    Vector3 currentMovement;
+    public Vector3 currentMovement;
     private float blendSmooth = 0;
 
 
@@ -331,7 +332,7 @@ public class ActionCharacter : MonoBehaviour
     //Ataque
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if(!isFloorBelow || isClimbing || isHanging)
+        if(!isFloorBelow || isClimbing || isHanging || dead)
             return;
 
         CheckNewAttack();
@@ -524,7 +525,7 @@ public class ActionCharacter : MonoBehaviour
     //Called when "Dash"
     private void OnRoll(InputAction.CallbackContext context)
     {
-        if (isDashing || isHanging || isClimbing || isAttacking)
+        if (isDashing || isHanging || isClimbing || isAttacking || dead)
             return;
 
         //Trigger dash animation
@@ -547,6 +548,7 @@ public class ActionCharacter : MonoBehaviour
     //Handle Jump
     void handleJump()
     {
+        if(dead) return;
         if(isGodMode)
         {
             if(isJumpPressed)
@@ -775,6 +777,7 @@ public class ActionCharacter : MonoBehaviour
 
     void Update()
     {
+        if(!dead) {
         //Handle input
         onMovementInput(playerInput.CharacterControls.Move.ReadValue<Vector2>());
         //Apply rotacion
@@ -783,6 +786,7 @@ public class ActionCharacter : MonoBehaviour
         handleAnimation();
         //Apply Physics
         handlePhysics();
+        }
 
         //Move the character
         if(!isClimbing)

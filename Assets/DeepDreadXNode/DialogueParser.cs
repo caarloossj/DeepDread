@@ -25,9 +25,11 @@ public class DialogueParser : MonoBehaviour
     [SerializeField] private RectTransform baseTransform;
     public TextMeshProUGUI tmpro_question;
     private string previousCharacter = "";
+    private GlobalAudioManager audioManager;
 
     private void Awake() {
         inputHandler = UIInputHandler.instance;
+        audioManager = FindObjectOfType<GlobalAudioManager>();
     }
 
     //Debug Only
@@ -90,7 +92,7 @@ public class DialogueParser : MonoBehaviour
 
         baseTransform.sizeDelta = new Vector2(baseTransform.sizeDelta.x, height);
 
-        typer.TypeText(node.dialogueText,.02f);
+        typer.TypeText(node.dialogueText,.04f);
 
         //Check Event
         CheckEvents(node);
@@ -103,6 +105,11 @@ public class DialogueParser : MonoBehaviour
             xEventNode eventNode = node.GetPort("Event 0").Connection.node as xEventNode;
             Debug.Log(eventNode.trigger);
             GameObject.FindGameObjectWithTag("Robot").GetComponent<Animator>().SetTrigger(eventNode.trigger); 
+        }
+        if(node.GetPort("Event 1") != null)
+        {
+            xEventNode eventNode = node.GetPort("Event 1").Connection.node as xEventNode;
+            audioManager.AudioPlay(eventNode.audioClip, 0.75f, false, new Vector3(900,900,900), false); 
         }
     }
 

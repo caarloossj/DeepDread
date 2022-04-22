@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 
 public class GameManager : MonoBehaviour
 {
     public bool isPause = false;
     public GameObject pauseMenu;
+    public PlayableDirector deathTimeline;
 
     #region Singleton
     //Singleton
@@ -37,6 +39,24 @@ public class GameManager : MonoBehaviour
 
     public void QuitGame(){
         Application.Quit();
+    }
+
+    public void Die(){
+        ActionCharacter.Instance.dead = true;
+        ActionCharacter.Instance.currentMovement = Vector3.zero;
+        ActionCharacter.Instance.animator.SetBool("dead", true);
+        deathTimeline.Play();
+        StartCoroutine(RespawnCoroutine());
+    }
+
+    private IEnumerator RespawnCoroutine() {
+        yield return new WaitForSeconds(5);
+        Respawn();
+    }
+
+    private void Respawn() {
+        ActionCharacter.Instance.dead = false;
+        ActionCharacter.Instance.animator.SetBool("dead", false);
     }
 
     public void SwitchPause()
