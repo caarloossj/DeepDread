@@ -5,19 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/Menu/Sixth Sense.unity
-    guid: cd03cf5b3f86e1448852f3301c64aafb
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+    path: Assets/Interface/Menu_Scene.unity
+    guid: 05483f6c32982544ebe6222a2cc4440c
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/Level_1.unity
+    guid: 4cf2bef767c033a4490d9bd05faa35cf
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/laboratorio.unity
+    guid: c44458c7c2f28c94ba99da03c0629adc
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/Level_2.unity
+    guid: f6b8341ac27849d478c919a1119fc544
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/boss_room.unity
+    guid: 1f3a5d9daca2ebf439517de3478f869c
   m_configObjects: {}

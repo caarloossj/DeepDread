@@ -119,6 +119,7 @@ public class ActionCharacter : MonoBehaviour
     public Vector3 damageBoxExtents;
     public Vector3 damageBoxOffset;
     public Transform targetLocked;
+    public float targetLockRadius = 8;
 
     [Space(20)]
     [Header("FX")]
@@ -213,9 +214,10 @@ public class ActionCharacter : MonoBehaviour
         playerInput.CharacterControls.TargetLock.performed += context => TargetLock();
 
         //Levels (Need to move to manager)
-        playerInput.CharacterControls.GoToLevel1.performed += (x) => {SceneManager.LoadScene("level1_prototype");};
-        playerInput.CharacterControls.GoToLevel2.performed += (x) => {SceneManager.LoadScene("level2_prototype");};
-        playerInput.CharacterControls.GoToLevel3.performed += (x) => {SceneManager.LoadScene("level3_prototype");};
+        playerInput.CharacterControls.GoToLevel1.performed += (x) => {SceneManager.LoadScene("Level_1");};
+        playerInput.CharacterControls.GoToLevel2.performed += (x) => {SceneManager.LoadScene("laboratorio");};
+        playerInput.CharacterControls.GoToLevel3.performed += (x) => {SceneManager.LoadScene("Level_2");};
+        playerInput.CharacterControls.GoToLevel4.performed += (x) => {SceneManager.LoadScene("boss_room");};
         playerInput.UIControls.Pause.performed += (x) => {GameManager.Instance.SwitchPause();};
 
         //Initialize speed
@@ -294,20 +296,20 @@ public class ActionCharacter : MonoBehaviour
         if(targetLocked != null)
         {
             targetLocked = null;
-            actionCamera.cinemachine = normalCamera;
+
+            actionCamera.isLocked = false;
             
             lockCamera.m_Priority = 1;
             normalCamera.m_Priority = 10;
-
-            actionCamera.ResetCamera();
         }
         else
         {
             //Get nearest enemy in range
-            Collider[] enemies = Physics.OverlapSphere(transform.position, 8, enemyLayerMask);
+            Collider[] enemies = Physics.OverlapSphere(transform.position, targetLockRadius, enemyLayerMask);
 
             if(enemies.Length > 0)
             {
+                Debug.Log("ASDAD");
                 float closestDist = 100;
                 foreach (var enemy in enemies)
                 {
@@ -320,11 +322,11 @@ public class ActionCharacter : MonoBehaviour
                 }
 
                 lockCamera.m_LookAt = targetLocked;
-                actionCamera.cinemachine = lockCamera;
+
+                actionCamera.isLocked = true;
 
                 lockCamera.m_Priority = 10;
                 normalCamera.m_Priority = 1;
-                actionCamera.ResetCamera();
             }
         }
     }

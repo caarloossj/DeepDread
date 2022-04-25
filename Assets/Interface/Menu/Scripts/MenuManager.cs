@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
@@ -12,18 +14,11 @@ public class MenuManager : MonoBehaviour
     public Button lastButton;
     private bool inOptions;
     public bool isOnValue = false;
+    public AudioClip valueSound;
+    public AudioSource generalSource;
+    public PlayableDirector playTimeline;
 
     private UIInputHandler inputHandler;
-
-    //private void Start() {
-    //    //Enable First Page
-    //    if(startingPage != null)
-    //    {
-    //        ChangePage(startingPage);
-    //    } else {
-    //        Debug.LogError("There's no starting page");
-    //    }
-    //}
 
     void Start()
     {
@@ -32,8 +27,8 @@ public class MenuManager : MonoBehaviour
         //inputHandler.UIControls.UI.TextSkip.performed += context => Return();
 
         inputHandler.UIControls.UI.Return.performed += context => Return();
-        //controls.UIControls.RightValue.performed += context => ControllerValueInput(true);
-        //controls.UIControls.LeftValue.performed += context => ControllerValueInput(false);
+        inputHandler.UIControls.UI.RightValue.performed += context => ControllerValueInput(true);
+        inputHandler.UIControls.UI.LeftValue.performed += context => ControllerValueInput(false);
     }
 
     private void ControllerValueInput(bool increase)
@@ -49,6 +44,8 @@ public class MenuManager : MonoBehaviour
     {
         //If a settings value is selected, change the value
         
+        generalSource.PlayOneShot(valueSound);
+
         int newValue = PlayerPrefs.GetInt(setting.valueIdentifier, setting.defaultValue) + (increase ? 1 : -1);
         newValue = Mathf.Clamp(newValue, 0, 10);
         PlayerPrefs.SetInt(setting.valueIdentifier, newValue);
@@ -64,6 +61,17 @@ public class MenuManager : MonoBehaviour
         if(inOptions)
         {
             lastButton.Select();
+        }
+    }
+
+    public void Play() {
+        playTimeline.Play();
+
+        StartCoroutine(EnterScene());
+
+        IEnumerator EnterScene() {
+            yield return new WaitForSeconds(2);
+            SceneManager.LoadScene("Level_1");
         }
     }
 

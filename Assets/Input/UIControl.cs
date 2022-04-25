@@ -33,6 +33,22 @@ public class @UIControl : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""RightValue"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b4b78ef-2ec5-49b8-ab2f-009ec746bff4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""LeftValue"",
+                    ""type"": ""Button"",
+                    ""id"": ""48e9f54c-7abe-452c-befa-32a9eb8fa817"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -79,6 +95,28 @@ public class @UIControl : IInputActionCollection, IDisposable
                     ""action"": ""Return"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""850c08c0-0023-4ea7-a74d-19fa540e4114"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightValue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5e1682e7-dfa8-429e-b6d2-a7f7952aae0f"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftValue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -89,6 +127,8 @@ public class @UIControl : IInputActionCollection, IDisposable
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_TextSkip = m_UI.FindAction("TextSkip", throwIfNotFound: true);
         m_UI_Return = m_UI.FindAction("Return", throwIfNotFound: true);
+        m_UI_RightValue = m_UI.FindAction("RightValue", throwIfNotFound: true);
+        m_UI_LeftValue = m_UI.FindAction("LeftValue", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -140,12 +180,16 @@ public class @UIControl : IInputActionCollection, IDisposable
     private IUIActions m_UIActionsCallbackInterface;
     private readonly InputAction m_UI_TextSkip;
     private readonly InputAction m_UI_Return;
+    private readonly InputAction m_UI_RightValue;
+    private readonly InputAction m_UI_LeftValue;
     public struct UIActions
     {
         private @UIControl m_Wrapper;
         public UIActions(@UIControl wrapper) { m_Wrapper = wrapper; }
         public InputAction @TextSkip => m_Wrapper.m_UI_TextSkip;
         public InputAction @Return => m_Wrapper.m_UI_Return;
+        public InputAction @RightValue => m_Wrapper.m_UI_RightValue;
+        public InputAction @LeftValue => m_Wrapper.m_UI_LeftValue;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -161,6 +205,12 @@ public class @UIControl : IInputActionCollection, IDisposable
                 @Return.started -= m_Wrapper.m_UIActionsCallbackInterface.OnReturn;
                 @Return.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnReturn;
                 @Return.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnReturn;
+                @RightValue.started -= m_Wrapper.m_UIActionsCallbackInterface.OnRightValue;
+                @RightValue.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnRightValue;
+                @RightValue.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnRightValue;
+                @LeftValue.started -= m_Wrapper.m_UIActionsCallbackInterface.OnLeftValue;
+                @LeftValue.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnLeftValue;
+                @LeftValue.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnLeftValue;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -171,6 +221,12 @@ public class @UIControl : IInputActionCollection, IDisposable
                 @Return.started += instance.OnReturn;
                 @Return.performed += instance.OnReturn;
                 @Return.canceled += instance.OnReturn;
+                @RightValue.started += instance.OnRightValue;
+                @RightValue.performed += instance.OnRightValue;
+                @RightValue.canceled += instance.OnRightValue;
+                @LeftValue.started += instance.OnLeftValue;
+                @LeftValue.performed += instance.OnLeftValue;
+                @LeftValue.canceled += instance.OnLeftValue;
             }
         }
     }
@@ -179,5 +235,7 @@ public class @UIControl : IInputActionCollection, IDisposable
     {
         void OnTextSkip(InputAction.CallbackContext context);
         void OnReturn(InputAction.CallbackContext context);
+        void OnRightValue(InputAction.CallbackContext context);
+        void OnLeftValue(InputAction.CallbackContext context);
     }
 }

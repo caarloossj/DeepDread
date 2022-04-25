@@ -19,6 +19,7 @@ public class ActionCamera : MonoBehaviour
     private Tween distortion;
     private Sequence zoomOut;
     private bool isInCombat;
+    public bool isLocked;
     private IEnumerator combatTimer;
     private bool m_isRunning = false;
     private bool isRunning {
@@ -28,7 +29,8 @@ public class ActionCamera : MonoBehaviour
             if(value != m_isRunning)
             {
                 m_isRunning = value; 
-                ZoomOut(m_isRunning);
+                if(!isLocked)
+                    ZoomOut(m_isRunning);
             }
         }
     }
@@ -37,6 +39,7 @@ public class ActionCamera : MonoBehaviour
     {
         cinemachineNoise = GetComponent<CinemachineImpulseSource>();
         characterController = ActionCharacter.Instance.characterController;
+        componentBase = cinemachine.GetCinemachineComponent<CinemachineFramingTransposer>();
         ResetCamera();
 
         DOTween.To(() => storyboard.m_Alpha,
@@ -49,11 +52,12 @@ public class ActionCamera : MonoBehaviour
 
     public void ResetCamera()
     {
-        componentBase = (CinemachineFramingTransposer)cinemachine.GetCinemachineComponent(CinemachineCore.Stage.Body);
+        zoomTween.Kill(true);
+        zoomOut.Kill(true);
     }
 
     private void Update() {
-        if(!isInCombat) 
+        if(!isInCombat && !isLocked) 
         {
             //Zoom out if speed is high
             var speed = characterController.velocity.magnitude;
@@ -69,6 +73,8 @@ public class ActionCamera : MonoBehaviour
     }
 
     public void JustDidDamge() {
+        if(isLocked) return;
+
         isInCombat = true;
         isRunning = true;
 
