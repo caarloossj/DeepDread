@@ -309,10 +309,11 @@ public class ActionCharacter : MonoBehaviour
 
             if(enemies.Length > 0)
             {
-                Debug.Log("ASDAD");
                 float closestDist = 100;
                 foreach (var enemy in enemies)
                 {
+                    if(!enemy.CompareTag("TargetLock")) continue;
+                    
                     float dist = Vector3.Distance(transform.position, enemy.transform.position);
                     if(dist < closestDist)
                     {

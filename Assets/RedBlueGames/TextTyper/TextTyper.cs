@@ -21,7 +21,7 @@
         /// <summary>
         /// Default delay setting will be multiplied by this when the character is a punctuation mark
         /// </summary>
-        private const float PunctuationDelayMultiplier = 30f;
+        private const float PunctuationDelayMultiplier = 10f;
 
         // Characters that are considered punctuation in this language. TextTyper pauses on these characters
         // a bit longer by default. Could be a setting sometime since this doesn't localize.

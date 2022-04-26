@@ -215,6 +215,17 @@
                 },
                 {
                     "name": "",
+                    "id": "c3b622de-7372-408e-9b81-b2fe45ce674b",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fc054a40-4697-4bea-af45-232048d9b40e",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",

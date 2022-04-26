@@ -46,6 +46,7 @@ public class EnemyBase : MonoBehaviour
     private Transform player;
     private Vector3 currentTarget;
     private IEnumerator resetMovement;
+    public bool playerInRange = false;
     private bool canAttack = false;
     private bool isChasing = false;
     private bool isAttacking = false;
@@ -62,7 +63,7 @@ public class EnemyBase : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
-        //animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         player = ActionCharacter.Instance.transform;
 
         navMeshAgent.speed = walkSpeed;
@@ -82,12 +83,11 @@ public class EnemyBase : MonoBehaviour
         {
             if(navMeshAgent.remainingDistance > 2.5)
             {
-                //animator.SetBool("isWalking", true);
-                LookAtPlayer();
+                animator.SetBool("isWalking", true);
             } else {
-                //animator.SetBool("isWalking", false);
+                animator.SetBool("isWalking", false);
             }
-
+        
             currentIdleTimer += Time.deltaTime;
         
             if(currentIdleTimer >= idleTimerDuration)
@@ -99,6 +99,9 @@ public class EnemyBase : MonoBehaviour
                 return;
             }
         }
+        
+        //Combat Related
+        if(!playerInRange) return;
 
         currentAttackTimer += Time.deltaTime;
 
@@ -130,14 +133,25 @@ public class EnemyBase : MonoBehaviour
     IEnumerator Chase() {
         isChasing = true;
 
-        //animator.SetBool("isWalking", true);
+        animator.SetBool("isWalking", true);
 
         //Change speed
         navMeshAgent.speed = chaseSpeed;
 
         yield return new WaitForSeconds(chaseTime);
-
-        Attack();
+        
+        if(playerInRange)
+        {
+            Attack();
+        } 
+        else 
+        {
+            navMeshAgent.speed = walkSpeed;
+            isChasing = false;
+            EnemyManager.EnemyStopsAttacking();
+            attackTimerDuration = Random.Range(attackTimerMin, attackTimerMax);
+            currentAttackTimer = 0;
+        }
     }
 
     IEnumerator Warning() 
@@ -157,8 +171,8 @@ public class EnemyBase : MonoBehaviour
         if(targetedByPlayer) return;
 
         //Animation
-        //animator.SetBool("isWalking", false);
-        //animator.SetTrigger("attack");
+        animator.SetBool("isWalking", false);
+        animator.SetTrigger("attack");
 
         //Change speed
         navMeshAgent.speed = walkSpeed;
@@ -167,7 +181,7 @@ public class EnemyBase : MonoBehaviour
 
         isChasing = false;
         isAttacking = true;
-        
+
         toPlayerBoost(1);
 
         EnemyManager.EnemyStopsAttacking();
@@ -175,7 +189,6 @@ public class EnemyBase : MonoBehaviour
         //Boost
         Vector3 dir = transform.position - player.position;
         dir.y = 0;
-        dir = dir.normalized;
 
         //New Timer
         attackTimerDuration = Random.Range(attackTimerMin, attackTimerMax);
@@ -273,7 +286,7 @@ public class EnemyBase : MonoBehaviour
 
     public void toPlayerBoost(int force)
     {
-        directionBoost(force, .8f);
+        directionBoost(force, 1.6f);
     }
 
     public void DealDamage()
@@ -320,14 +333,14 @@ public class EnemyBase : MonoBehaviour
     {
         if(!canAttack && !isChasing && !isAttacking && !warning)
             IdleMode();
-        else if (canAttack && !isChasing && !isAttacking && !warning)
+        else if (canAttack && !isChasing && !isAttacking && !warning && playerInRange)
             AttackMode();
 
         if(isChasing && !justHit)
         {
             //Go to player
             navMeshAgent.destination = player.position; 
-            LookAtPlayer();
+            //LookAtPlayer();
             if(Vector3.Distance(transform.position, player.position) < 3)
             {
                 StopCoroutine(attackCoroutine);
