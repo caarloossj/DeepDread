@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public bool isPause = false;
     public GameObject pauseMenu;
     public PlayableDirector deathTimeline;
+    public Transform acidFX;
 
     #region Singleton
     //Singleton
@@ -41,7 +42,14 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void Die(){
+    public void Die(int type){
+        switch(type)
+        {
+            case 0:
+                var acid = Instantiate(acidFX, ActionCharacter.Instance.transform.position + Vector3.up*0.3f, Quaternion.identity);
+                Destroy(acid.gameObject, 1.5f);
+                break;
+        }
         ActionCharacter.Instance.dead = true;
         ActionCharacter.Instance.currentMovement = Vector3.zero;
         ActionCharacter.Instance.animator.SetBool("dead", true);

@@ -8,7 +8,7 @@ public class InstantDeath : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             Debug.Log("die");
-            FindObjectOfType<GameManager>().Die();
+            FindObjectOfType<GameManager>().Die(0);
         }
     }
 }
