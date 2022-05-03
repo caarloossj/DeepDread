@@ -127,9 +127,9 @@ public class ActionCharacter : MonoBehaviour
 
     //Particles
     public Transform hitFX;
-    public float hitFxOffest;
-    public Transform fistFX;
-    public ParticlePosition[] comboParticles;
+    public Vector3 hitFxOffest;
+    public Transform damageFX;
+    public Vector3 damageFxOffest;
 
     [Space(20)]
     [Header("Ledge Climb")]
@@ -396,12 +396,19 @@ public class ActionCharacter : MonoBehaviour
 
         if(enemies.Length > 0)
         {
-            //Camera Shake
-            actionCamera.Shake(1.8f, 1);
-            Debug.Log("dañado");
             foreach (var enemy in enemies)
             {
-                enemy.GetComponent<EnemyBase>().OnHit(1,transform.position);
+                if(enemy.CompareTag("TargetLock")) continue;
+                var bas = enemy.GetComponent<EnemyBase>();
+                if(bas.isAttacking) continue;
+                bas.OnHit(10,transform.position);
+                //Camera Shake
+                actionCamera.Shake(1.8f, 1);
+                //Particles
+            var pos = transform.position;
+            pos.y += hitFxOffest.y;
+            pos += transform.forward * hitFxOffest.z;
+            Destroy(Instantiate(hitFX, pos, Quaternion.identity).gameObject, 1);
             }
         }
 

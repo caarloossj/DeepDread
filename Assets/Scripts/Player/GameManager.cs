@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public PlayableDirector deathTimeline;
     public Transform acidFX;
+    public Transform currentCheckPoint;
 
     #region Singleton
     //Singleton
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
     }
 
     private static GameManager _instance;
+    public float acidHeight;
     #endregion
 
     // Update is called once per frame
@@ -46,7 +48,9 @@ public class GameManager : MonoBehaviour
         switch(type)
         {
             case 0:
-                var acid = Instantiate(acidFX, ActionCharacter.Instance.transform.position + Vector3.up*0.3f, Quaternion.identity);
+                var pos = ActionCharacter.Instance.transform.position;
+                pos.y = acidHeight;
+                var acid = Instantiate(acidFX, pos, Quaternion.identity);
                 Destroy(acid.gameObject, 1.5f);
                 break;
         }
@@ -58,8 +62,15 @@ public class GameManager : MonoBehaviour
     }
 
     private IEnumerator RespawnCoroutine() {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(4);
+        ActionCharacter.Instance.transform.position = currentCheckPoint.position;
+        yield return new WaitForSeconds(1);
         Respawn();
+    }
+
+    public void ChangeCheckpoint(Transform newt)
+    {
+        currentCheckPoint = newt;
     }
 
     private void Respawn() {

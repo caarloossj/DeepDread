@@ -18,6 +18,7 @@ public class EnemyBase : MonoBehaviour
     public int walkSpeed = 4;
     public int chaseSpeed = 8;
     public float stunTime = 2;
+    public float stunForce;
     public float upForce = 380;
     public float attackTimerMin;
     public float attackTimerMax;
@@ -35,7 +36,7 @@ public class EnemyBase : MonoBehaviour
     //Component References
     public Transform hitFX;
     public Transform warningFX;
-    public Vector3 fxOffset;
+    public float fxOffset;
     private NavMeshAgent navMeshAgent;
     private Rigidbody rb;
     private Animator animator;
@@ -49,7 +50,7 @@ public class EnemyBase : MonoBehaviour
     public bool playerInRange = false;
     private bool canAttack = false;
     private bool isChasing = false;
-    private bool isAttacking = false;
+    public bool isAttacking = false;
     private float attackTimerDuration = 0;
     private float currentAttackTimer = 0;
     private float currentIdleTimer = 0;
@@ -58,6 +59,8 @@ public class EnemyBase : MonoBehaviour
     private bool warning;
     private GameObject warningObject;
     private IEnumerator warningCoroutine;
+    public Transform lifePivot;
+    public SpriteRenderer lifeRenderer;
 
     private void Start()
     {
@@ -117,7 +120,7 @@ public class EnemyBase : MonoBehaviour
         canAttack = false;
 
         //Check if enemies are already attacking
-        if(justHit || EnemyManager.immaAttack >= 2)
+        if(EnemyManager.immaAttack >= 2)
         {
             attackTimerDuration = Random.Range(attackTimerMin, attackTimerMax);
             currentAttackTimer = 0;
@@ -170,9 +173,17 @@ public class EnemyBase : MonoBehaviour
     {
         if(targetedByPlayer) return;
 
+        //RandomAttack
+        var rand = Random.value;
+        string attack;
+
+        if(rand <= .2f) {attack = "attack3";}
+        else if(rand <= .6f) {attack = "attack2";}
+        else {attack = "attack1";}
+        
         //Animation
         animator.SetBool("isWalking", false);
-        animator.SetTrigger("attack");
+        animator.SetTrigger(attack);
 
         //Change speed
         navMeshAgent.speed = walkSpeed;
@@ -246,11 +257,23 @@ public class EnemyBase : MonoBehaviour
         
         life -= damage;
 
+        if(life<=0)
+        {
+            animator.SetTrigger("die");
+            navMeshAgent.enabled = false;
+            GetComponent<CapsuleCollider>().enabled = false;
+            this.enabled = false;
+        }
+
+        //LifeBar
+        lifePivot.DOScaleX(life/100f, 0.3f).SetEase(Ease.InQuad);
+        lifeRenderer.DOBlendableColor(Color.red, 0.1f).OnComplete(() => lifeRenderer.DOBlendableColor(Color.white, 0.3f));
+
         //FX
-        //var fx = Instantiate(hitFX);
-        //fx.parent = transform;
-        //fx.localPosition = fxOffset;
-        //Destroy(fx.gameObject, 0.6f);
+        var fx = Instantiate(hitFX);
+        fx.parent = transform;
+        fx.localPosition = Vector3.up * fxOffset;
+        Destroy(fx.gameObject, 1f);
 
         //If is attacking, don't knockback
         if(isAttacking) return;
@@ -262,7 +285,7 @@ public class EnemyBase : MonoBehaviour
         LookAtPlayer();
 
         //Animation
-        //animator.SetTrigger("damage");
+        animator.SetTrigger("hit");
     }
 
     public void KnockBack(Vector3 direction)
@@ -271,7 +294,7 @@ public class EnemyBase : MonoBehaviour
         dir.y = 0;
         dir = dir.normalized;
 
-        directionBoost(180, stunTime, dir);
+        directionBoost(stunForce, stunTime, dir);
     }
 
     void LookAtPlayer()
