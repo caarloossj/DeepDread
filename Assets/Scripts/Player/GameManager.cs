@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine.Playables;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class GameManager : MonoBehaviour
     public PlayableDirector deathTimeline;
     public Transform acidFX;
     public Transform currentCheckPoint;
+    public float totalLife = 100;
+    public float currentLife = 100;
+    public Image lifebar;
+    public Image staminabar;
+    public Image blood;
 
     #region Singleton
     //Singleton
@@ -66,6 +72,14 @@ public class GameManager : MonoBehaviour
         ActionCharacter.Instance.transform.position = currentCheckPoint.position;
         yield return new WaitForSeconds(1);
         Respawn();
+    }
+
+    public void LifeBar(float life)
+    {
+        currentLife -= life;
+        lifebar.DOFillAmount(currentLife/100f, 0.3f).SetEase(Ease.InQuad);
+        lifebar.DOBlendableColor(Color.red, 0.1f).OnComplete(() => lifebar.DOBlendableColor(Color.white, 0.3f));
+        blood.DOFade(0.2f, 0.1f).OnComplete(() => blood.DOFade(0, 0.7f));
     }
 
     public void ChangeCheckpoint(Transform newt)

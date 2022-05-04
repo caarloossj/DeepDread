@@ -35,13 +35,11 @@ public class EnemyBase : MonoBehaviour
 
     //Component References
     public Transform hitFX;
-    public Transform warningFX;
+    public Transform attackFX;
     public float fxOffset;
     private NavMeshAgent navMeshAgent;
     private Rigidbody rb;
     private Animator animator;
-    public Renderer _renderer;
-    public Transform warningPos;
 
     //Private variables
     private Transform player;
@@ -60,6 +58,8 @@ public class EnemyBase : MonoBehaviour
     private GameObject warningObject;
     private IEnumerator warningCoroutine;
     public Transform lifePivot;
+    public GameObject bar;
+    public GameObject lockTar;
     public SpriteRenderer lifeRenderer;
 
     private void Start()
@@ -263,6 +263,8 @@ public class EnemyBase : MonoBehaviour
             navMeshAgent.enabled = false;
             GetComponent<CapsuleCollider>().enabled = false;
             this.enabled = false;
+            bar.SetActive(false);
+            lockTar.SetActive(false);
         }
 
         //LifeBar
@@ -309,18 +311,26 @@ public class EnemyBase : MonoBehaviour
 
     public void toPlayerBoost(int force)
     {
-        directionBoost(force, 1.6f);
+        directionBoost(force, 1.4f);
     }
 
-    public void DealDamage()
+    public void DealDamage(int damage)
     {
         Vector3 boxPos = transform.position;
         boxPos += transform.forward * damageAreaOffset.z;
         boxPos += transform.up * damageAreaExtents.y;
 
+        //Particles
+        if(damage >= 20)
+        {
+            Destroy(Instantiate(attackFX,transform.position + transform.forward*2, Quaternion.identity).gameObject, 2);
+            Camera.main.GetComponent<ActionCamera>().Shake(12, 1);
+        }
+
+
         if(Physics.CheckBox(boxPos, damageAreaExtents/2, transform.rotation, playerLayerMask))
         {
-            //ActionCharacter.Instance.ReceiveDamage(1, transform.position);
+            ActionCharacter.Instance.ReceiveDamage(damage);
         }
     }
 
@@ -364,7 +374,7 @@ public class EnemyBase : MonoBehaviour
             //Go to player
             navMeshAgent.destination = player.position; 
             //LookAtPlayer();
-            if(Vector3.Distance(transform.position, player.position) < 3)
+            if(Vector3.Distance(transform.position, player.position) < 2)
             {
                 StopCoroutine(attackCoroutine);
                 Attack();

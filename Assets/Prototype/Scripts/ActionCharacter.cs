@@ -71,6 +71,7 @@ public class ActionCharacter : MonoBehaviour
     bool isDashing;
     bool isJumpPressed = false;
     bool isJumping = false;
+    bool isRolling = false;
     bool isRunPressed;
     public bool isFloorBelow;
 
@@ -335,7 +336,7 @@ public class ActionCharacter : MonoBehaviour
     //Ataque
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if(!isFloorBelow || isClimbing || isHanging || dead)
+        if(!isFloorBelow || isClimbing || isHanging || dead || isRolling)
             return;
 
         CheckNewAttack();
@@ -403,12 +404,15 @@ public class ActionCharacter : MonoBehaviour
                 if(bas.isAttacking) continue;
                 bas.OnHit(10,transform.position);
                 //Camera Shake
-                actionCamera.Shake(1.8f, 1);
+                actionCamera.Shake(9);
                 //Particles
-            var pos = transform.position;
-            pos.y += hitFxOffest.y;
-            pos += transform.forward * hitFxOffest.z;
-            Destroy(Instantiate(hitFX, pos, Quaternion.identity).gameObject, 1);
+                var pos = transform.position;
+                pos.y += hitFxOffest.y;
+                pos += transform.forward * hitFxOffest.z;
+                Destroy(Instantiate(hitFX, pos, Quaternion.identity).gameObject, 1);
+                //Lock
+                if(bas.life < 10)
+                    TargetLock();
             }
         }
 
@@ -430,6 +434,8 @@ public class ActionCharacter : MonoBehaviour
         {
             yield return new WaitForSeconds(duration);
             isDashing = false;
+            if(isRolling)
+                isRolling = false;
         }
     }
 
@@ -542,7 +548,9 @@ public class ActionCharacter : MonoBehaviour
         animator.SetTrigger("roll");
 
         //Execute the dash
-        ExecuteDash(sprintDash);
+        ExecuteDash(sprintDash, true);
+
+        isRolling = true;
 
         //WindParticleBurst(10);
     }
@@ -630,6 +638,19 @@ public class ActionCharacter : MonoBehaviour
         
         transform.DOLocalMove(newPos, .2f);
         transform.DORotateQuaternion(obj.rotation, 0.1f);
+    }
+
+    public void ReceiveDamage(int damage) 
+    {
+        animator.SetTrigger("hit");
+        isDashing = true;
+        isRolling = true;
+        isAttacking = false;
+        currentMovement = Vector3.zero;
+        targetTilt = 0;
+        GameManager.Instance.LifeBar(damage);
+        actionCamera.Shake(10, 1.6f);
+        ResetMovement(1);
     }
 
     private void StopHang()
@@ -858,7 +879,7 @@ public class ActionCharacter : MonoBehaviour
 
 
     //Be able to call dash externally
-    public void ExecuteDash(DashSetting setting)
+    public void ExecuteDash(DashSetting setting, bool isRoll = false)
     {
         if (dashReset != null)
             StopCoroutine(dashReset);
@@ -866,17 +887,24 @@ public class ActionCharacter : MonoBehaviour
         Vector3 dir;
 
         dir = new Vector3(lastMovementInput.x, 0, lastMovementInput.y);
-        dashReset = Dash(setting.dashTime, setting.dashForce, setting.dashCurve, dir);
+        dashReset = Dash(setting.dashTime, setting.dashForce, setting.dashCurve, dir, isRoll);
         StartCoroutine(dashReset);
         isDashing = true;
         ResetMovement(setting.dashTime);
     }
 
     //Dash
-    public IEnumerator Dash (float duration, float force, AnimationCurve curve, Vector3 direction)
+    public IEnumerator Dash (float duration, float force, AnimationCurve curve, Vector3 direction, bool isRoll)
     {
-        QuickRotation(new Vector3(lastMovementInput.x, 0, lastMovementInput.y));
-
+        if(targetLocked != null && Vector3.Distance(targetLocked.position, transform.position) < 4 && !isRoll)
+        {
+            transform.DOLookAt(targetLocked.position, 0.2f, AxisConstraint.Y);
+            direction = (targetLocked.position - transform.position).normalized;
+        } else
+        {
+            QuickRotation(new Vector3(lastMovementInput.x, 0, lastMovementInput.y));
+        }
+        
         //Stop Movement
         smoothMovement = new Vector2(0, 0);
 

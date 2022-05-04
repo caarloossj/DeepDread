@@ -108,8 +108,10 @@ public class ActionCamera : MonoBehaviour
             zoom, duration).SetEase(zoomCurve);
     }
 
-    public void Shake(float intensity, float duration)
+    public void Shake(float intensity = 6, float duration = 0.36f)
     {
+        cinemachineNoise.m_ImpulseDefinition.m_AmplitudeGain = intensity;
+        cinemachineNoise.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime = duration;
         cinemachineNoise.GenerateImpulse();
     }
 
