@@ -164,9 +164,21 @@ public class EnemyBase : MonoBehaviour
 
         yield return new WaitForSeconds (.6f);
 
-        attackCoroutine = Chase();
+        if(playerInRange)
+        {
+            attackCoroutine = Chase();
 
-        StartCoroutine(attackCoroutine);
+            StartCoroutine(attackCoroutine);
+        } 
+        else 
+        {
+            navMeshAgent.speed = walkSpeed;
+            warning = false;
+            isChasing = false;
+            EnemyManager.EnemyStopsAttacking();
+            attackTimerDuration = Random.Range(attackTimerMin, attackTimerMax);
+            currentAttackTimer = 0;
+        }
     }
 
     void Attack() 
@@ -262,9 +274,10 @@ public class EnemyBase : MonoBehaviour
             animator.SetTrigger("die");
             navMeshAgent.enabled = false;
             GetComponent<CapsuleCollider>().enabled = false;
-            this.enabled = false;
             bar.SetActive(false);
             lockTar.SetActive(false);
+            this.enabled = false;
+            return;
         }
 
         //LifeBar

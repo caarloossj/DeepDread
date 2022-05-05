@@ -58,8 +58,10 @@ public class GameManager : MonoBehaviour
                 pos.y = acidHeight;
                 var acid = Instantiate(acidFX, pos, Quaternion.identity);
                 Destroy(acid.gameObject, 1.5f);
+                lifebar.DOFillAmount(0, 0.4f).SetEase(Ease.InQuad);
                 break;
         }
+        if(ActionCharacter.Instance.targetLocked !=null) ActionCharacter.Instance.TargetLock();
         ActionCharacter.Instance.dead = true;
         ActionCharacter.Instance.currentMovement = Vector3.zero;
         ActionCharacter.Instance.animator.SetBool("dead", true);
@@ -80,6 +82,10 @@ public class GameManager : MonoBehaviour
         lifebar.DOFillAmount(currentLife/100f, 0.3f).SetEase(Ease.InQuad);
         lifebar.DOBlendableColor(Color.red, 0.1f).OnComplete(() => lifebar.DOBlendableColor(Color.white, 0.3f));
         blood.DOFade(0.2f, 0.1f).OnComplete(() => blood.DOFade(0, 0.7f));
+        if(currentLife <= 0)
+        {
+            Die(1);
+        }
     }
 
     public void ChangeCheckpoint(Transform newt)
@@ -90,6 +96,8 @@ public class GameManager : MonoBehaviour
     private void Respawn() {
         ActionCharacter.Instance.dead = false;
         ActionCharacter.Instance.animator.SetBool("dead", false);
+        lifebar.DOFillAmount(1, 0.5f).SetEase(Ease.OutQuad);
+        currentLife = totalLife;
     }
 
     public void SwitchPause()

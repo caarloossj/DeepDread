@@ -291,7 +291,7 @@ public class ActionCharacter : MonoBehaviour
     }
 
     //TargetLock
-    private void TargetLock()
+    public void TargetLock()
     {
         //if is locked, unlock
         if(targetLocked != null)
@@ -642,6 +642,7 @@ public class ActionCharacter : MonoBehaviour
 
     public void ReceiveDamage(int damage) 
     {
+        if(dead) return;
         animator.SetTrigger("hit");
         isDashing = true;
         isRolling = true;
