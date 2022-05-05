@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using TMPro;
 
 public class Page : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class Page : MonoBehaviour
         //Make Invisible
         var images = GetComponentsInChildren<Image>();
         var texts = GetComponentsInChildren<Text>();
+        var tm = GetComponentsInChildren<TextMeshProUGUI>();
 
         foreach (var image in images)
         {
@@ -29,6 +31,13 @@ public class Page : MonoBehaviour
 
 
         foreach (var text in texts)
+        {
+            Color col = text.color;
+            col.a = 0;
+            text.color = col;
+        }
+
+        foreach (var text in tm)
         {
             Color col = text.color;
             col.a = 0;
@@ -53,14 +62,21 @@ public class Page : MonoBehaviour
 
         foreach (var image in images)
         {
-            image.DOFade(1, 0.2f);
+            image.DOFade(1, 0.2f).SetUpdate(true);
         }
 
         var texts = GetComponentsInChildren<Text>();
 
         foreach (var text in texts)
         {
-            text.DOFade(1, 0.2f);
+            text.DOFade(1, 0.2f).SetUpdate(true);
+        }
+
+        var tm = GetComponentsInChildren<TextMeshProUGUI>();
+
+        foreach (var text in tm)
+        {
+            text.DOFade(1, 0.2f).SetUpdate(true);
         }
     }
 
@@ -81,14 +97,21 @@ public class Page : MonoBehaviour
 
         foreach (var image in images)
         {
-            image.DOFade(0, 0.2f);
+            image.DOFade(0, 0.2f).SetUpdate(true);
         }
 
         var texts = GetComponentsInChildren<Text>();
 
         foreach (var text in texts)
         {
-            text.DOFade(0, 0.2f);
+            text.DOFade(0, 0.2f).SetUpdate(true);
+        }
+
+        var tm = GetComponentsInChildren<TextMeshProUGUI>();
+
+        foreach (var text in tm)
+        {
+            text.DOFade(0, 0.2f).SetUpdate(true);
         }
     }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
+using Cinemachine;
 using DG.Tweening;
 
 public class GameManager : MonoBehaviour
@@ -12,11 +13,16 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public PlayableDirector deathTimeline;
     public Transform acidFX;
+    public Transform healFX;
     public Transform currentCheckPoint;
     public float totalLife = 100;
     public float currentLife = 100;
     public Image lifebar;
     public Image staminabar;
+    public Button defaultButton;
+    public GameObject hud;
+    public CinemachineStoryboard storyboard;
+    public CinemachineVirtualCamera cam;
     public Image blood;
 
     #region Singleton
@@ -76,6 +82,16 @@ public class GameManager : MonoBehaviour
         Respawn();
     }
 
+    public void Heal()
+    {
+        currentLife += 35;
+        currentLife = Mathf.Clamp(currentLife, 0, 100);
+        lifebar.DOFillAmount(currentLife/100f, 0.3f).SetEase(Ease.InQuad);
+        lifebar.DOBlendableColor(Color.green, 0.1f).OnComplete(() => lifebar.DOBlendableColor(Color.white, 0.3f));
+        Destroy(Instantiate(healFX, ActionCharacter.Instance.transform).gameObject, 3);
+        healFX.localPosition = new Vector3(0, 0.6f, 0);
+    }
+
     public void LifeBar(float life)
     {
         currentLife -= life;
@@ -106,13 +122,22 @@ public class GameManager : MonoBehaviour
 
         if(isPause) {
             pauseMenu.SetActive(true);
+            hud.SetActive(false);
+            cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = 0;
+            cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = 0;
+            storyboard.m_Alpha = 0.86f;
             Time.timeScale = 0;
+            defaultButton.Select();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             ActionCharacter.Instance.EnableInput(false);
         } else
         {
             pauseMenu.SetActive(false);
+            hud.SetActive(true);
+            cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = .1f;
+            cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = .1f;
+            storyboard.m_Alpha = 0;
             Time.timeScale = 1;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;

@@ -113,6 +113,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Heal"",
+                    ""type"": ""Button"",
+                    ""id"": ""2b088c68-87ba-474c-9572-876b4b41644b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -357,6 +365,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""GoToLevel4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66eeabfd-e968-483d-bb1d-e3a901851b9f"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Heal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -404,6 +423,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_CharacterControls_GoToLevel3 = m_CharacterControls.FindAction("GoToLevel3", throwIfNotFound: true);
         m_CharacterControls_GoToLevel4 = m_CharacterControls.FindAction("GoToLevel4", throwIfNotFound: true);
         m_CharacterControls_TargetLock = m_CharacterControls.FindAction("TargetLock", throwIfNotFound: true);
+        m_CharacterControls_Heal = m_CharacterControls.FindAction("Heal", throwIfNotFound: true);
         // UIControls
         m_UIControls = asset.FindActionMap("UIControls", throwIfNotFound: true);
         m_UIControls_Pause = m_UIControls.FindAction("Pause", throwIfNotFound: true);
@@ -468,6 +488,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_CharacterControls_GoToLevel3;
     private readonly InputAction m_CharacterControls_GoToLevel4;
     private readonly InputAction m_CharacterControls_TargetLock;
+    private readonly InputAction m_CharacterControls_Heal;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -484,6 +505,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @GoToLevel3 => m_Wrapper.m_CharacterControls_GoToLevel3;
         public InputAction @GoToLevel4 => m_Wrapper.m_CharacterControls_GoToLevel4;
         public InputAction @TargetLock => m_Wrapper.m_CharacterControls_TargetLock;
+        public InputAction @Heal => m_Wrapper.m_CharacterControls_Heal;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -529,6 +551,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @TargetLock.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnTargetLock;
                 @TargetLock.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnTargetLock;
                 @TargetLock.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnTargetLock;
+                @Heal.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnHeal;
+                @Heal.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnHeal;
+                @Heal.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnHeal;
             }
             m_Wrapper.m_CharacterControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -569,6 +594,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @TargetLock.started += instance.OnTargetLock;
                 @TargetLock.performed += instance.OnTargetLock;
                 @TargetLock.canceled += instance.OnTargetLock;
+                @Heal.started += instance.OnHeal;
+                @Heal.performed += instance.OnHeal;
+                @Heal.canceled += instance.OnHeal;
             }
         }
     }
@@ -620,6 +648,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnGoToLevel3(InputAction.CallbackContext context);
         void OnGoToLevel4(InputAction.CallbackContext context);
         void OnTargetLock(InputAction.CallbackContext context);
+        void OnHeal(InputAction.CallbackContext context);
     }
     public interface IUIControlsActions
     {

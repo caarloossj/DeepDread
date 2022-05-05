@@ -18,7 +18,7 @@ public class WheelButton : MonoBehaviour, ISelectHandler
         rotationEuler.z = degrees;
 
         //Spin Wheel container
-        transform.parent.DOLocalRotate(rotationEuler, 0.3f).SetEase(Ease.OutBack);
+        transform.parent.DOLocalRotate(rotationEuler, 0.3f).SetEase(Ease.OutBack).SetUpdate(true);
 
         //Call the event
         Selected.Invoke();

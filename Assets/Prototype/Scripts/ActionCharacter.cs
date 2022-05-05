@@ -212,6 +212,7 @@ public class ActionCharacter : MonoBehaviour
         playerInput.CharacterControls.Jump.canceled += OnJump;
         playerInput.CharacterControls.Attack.performed += OnAttack;
         playerInput.CharacterControls.SwitchGod.performed += OnChangeGodMode;
+        playerInput.CharacterControls.Heal.performed += OnHeal;
         playerInput.CharacterControls.TargetLock.performed += context => TargetLock();
 
         //Levels (Need to move to manager)
@@ -225,6 +226,11 @@ public class ActionCharacter : MonoBehaviour
         currentSpeed = walkSpeed;
 
         setupJumpVariables();
+    }
+
+    private void OnHeal(InputAction.CallbackContext obj)
+    {
+        GameManager.Instance.Heal();
     }
 
     void CheckGrounded()
