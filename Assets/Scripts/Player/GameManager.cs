@@ -15,13 +15,13 @@ public class GameManager : MonoBehaviour
     public Transform acidFX;
     public Transform healFX;
     public Transform currentCheckPoint;
+    public Animator ianAnimator;
     public float totalLife = 100;
     public float currentLife = 100;
     public Image lifebar;
     public Image staminabar;
     public Button defaultButton;
     public GameObject hud;
-    public CinemachineStoryboard storyboard;
     public CinemachineVirtualCamera cam;
     public Image blood;
 
@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
 
     public void Heal()
     {
+        ianAnimator.SetTrigger("heal");
         currentLife += 35;
         currentLife = Mathf.Clamp(currentLife, 0, 100);
         lifebar.DOFillAmount(currentLife/100f, 0.3f).SetEase(Ease.InQuad);
@@ -125,7 +126,6 @@ public class GameManager : MonoBehaviour
             hud.SetActive(false);
             cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = 0;
             cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = 0;
-            storyboard.m_Alpha = 0.86f;
             Time.timeScale = 0;
             defaultButton.Select();
             Cursor.visible = true;
@@ -137,7 +137,6 @@ public class GameManager : MonoBehaviour
             hud.SetActive(true);
             cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = .1f;
             cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = .1f;
-            storyboard.m_Alpha = 0;
             Time.timeScale = 1;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
