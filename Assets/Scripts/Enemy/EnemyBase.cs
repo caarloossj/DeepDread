@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -61,6 +62,7 @@ public class EnemyBase : MonoBehaviour
     public GameObject bar;
     public GameObject lockTar;
     public SpriteRenderer lifeRenderer;
+    public UnityEvent dieEvent;
 
     private void Start()
     {
@@ -271,12 +273,15 @@ public class EnemyBase : MonoBehaviour
 
         if(life<=0)
         {
+            StopCoroutine(attackCoroutine);
+            StopCoroutine(warningCoroutine);
             animator.SetTrigger("die");
             navMeshAgent.enabled = false;
             GetComponent<CapsuleCollider>().enabled = false;
             bar.SetActive(false);
             lockTar.SetActive(false);
             this.enabled = false;
+            dieEvent.Invoke();
             return;
         }
 

@@ -18,11 +18,18 @@ public class GameManager : MonoBehaviour
     public Animator ianAnimator;
     public float totalLife = 100;
     public float currentLife = 100;
+    public float currentStamina = 100;
     public Image lifebar;
+    public Image staminaBar;
+    public int healthCharge = 3;
+    public Transform chargeParent;
     public Image staminabar;
+    public Image noStamina;
+    private bool lossingStamina;
     public Button defaultButton;
     public GameObject hud;
     public CinemachineVirtualCamera cam;
+    private Tween staminaTween;
     public Image blood;
 
     #region Singleton
@@ -43,6 +50,8 @@ public class GameManager : MonoBehaviour
 
     private static GameManager _instance;
     public float acidHeight;
+    public Color orangeColor;
+    public float staminaSpeed = 3;
     #endregion
 
     // Update is called once per frame
@@ -50,6 +59,15 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    void Update()
+    {
+        if(!lossingStamina && currentStamina < 100)
+        {
+            currentStamina += Time.deltaTime * staminaSpeed;
+            staminaBar.fillAmount = currentStamina/100f;
+        }
     }
 
     public void QuitGame(){
@@ -64,7 +82,7 @@ public class GameManager : MonoBehaviour
                 pos.y = acidHeight;
                 var acid = Instantiate(acidFX, pos, Quaternion.identity);
                 Destroy(acid.gameObject, 1.5f);
-                lifebar.DOFillAmount(0, 0.4f).SetEase(Ease.InQuad);
+                LifeBar(30);
                 break;
         }
         if(ActionCharacter.Instance.targetLocked !=null) ActionCharacter.Instance.TargetLock();
@@ -79,11 +97,17 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(4);
         ActionCharacter.Instance.transform.position = currentCheckPoint.position;
         yield return new WaitForSeconds(1);
-        Respawn();
+        Respawn(currentLife <= 0);
     }
 
     public void Heal()
     {
+        if(healthCharge<=0) return;
+
+        healthCharge--;
+
+        chargeParent.GetChild(healthCharge).gameObject.SetActive(false);
+
         ianAnimator.SetTrigger("heal");
         currentLife += 35;
         currentLife = Mathf.Clamp(currentLife, 0, 100);
@@ -91,6 +115,17 @@ public class GameManager : MonoBehaviour
         lifebar.DOBlendableColor(Color.green, 0.1f).OnComplete(() => lifebar.DOBlendableColor(Color.white, 0.3f));
         Destroy(Instantiate(healFX, ActionCharacter.Instance.transform).gameObject, 3);
         healFX.localPosition = new Vector3(0, 0.6f, 0);
+    }
+
+    public void Stamina(float stamina)
+    {
+        if(staminaTween != null)
+            staminaTween.Kill(true);
+
+        currentStamina -= stamina;
+        lossingStamina = true;
+        staminaTween = staminaBar.DOFillAmount(currentStamina/100f, 0.3f).SetEase(Ease.InQuad).OnComplete(()=>staminaTween= null);
+        staminaBar.DOBlendableColor(orangeColor, 0.1f).OnComplete(() => {staminaBar.DOBlendableColor(Color.white, 0.3f); lossingStamina = false;});
     }
 
     public void LifeBar(float life)
@@ -105,16 +140,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void NoStamina()
+    {
+        noStamina.DOFade(1, 0.1f).OnComplete(() => noStamina.DOFade(0, 0.2f));
+    }
+
     public void ChangeCheckpoint(Transform newt)
     {
         currentCheckPoint = newt;
     }
 
-    private void Respawn() {
+    private void Respawn(bool heal) {
         ActionCharacter.Instance.dead = false;
         ActionCharacter.Instance.animator.SetBool("dead", false);
-        lifebar.DOFillAmount(1, 0.5f).SetEase(Ease.OutQuad);
-        currentLife = totalLife;
+        if(heal)
+        {
+            lifebar.DOFillAmount(1, 0.5f).SetEase(Ease.OutQuad);
+            currentLife = totalLife;
+        }
     }
 
     public void SwitchPause()

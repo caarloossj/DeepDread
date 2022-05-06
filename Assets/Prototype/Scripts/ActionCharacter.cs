@@ -353,6 +353,16 @@ public class ActionCharacter : MonoBehaviour
             if (currentCombo >= comboMax)
                 return;
 
+            if(GameManager.Instance.currentStamina < 10)
+            {
+                GameManager.Instance.NoStamina();
+                return;
+            }
+            else
+            {
+                GameManager.Instance.Stamina(20);
+            }
+
             actionCamera.Zoom(0.7f, 60);
 
             //Seek best enemy target
@@ -549,6 +559,16 @@ public class ActionCharacter : MonoBehaviour
     {
         if (isDashing || isHanging || isClimbing || isAttacking || dead)
             return;
+
+        if(GameManager.Instance.currentStamina < 18)
+        {
+            GameManager.Instance.NoStamina();
+            return;
+        }
+        else
+        {
+            GameManager.Instance.Stamina(35);
+        }
 
         //Trigger dash animation
         animator.SetTrigger("roll");
