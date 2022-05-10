@@ -21,4 +21,9 @@ public class RobotFollower : MonoBehaviour
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(rot), speed * Time.deltaTime * 3);
     }
+
+    public void SetTarget(Transform targ)
+    {
+        target = targ;
+    }
 }

@@ -9,6 +9,7 @@ using TMPro;
 using Dialogue;
 using System;
 using UnityEngine.Playables;
+using UnityEngine.InputSystem;
 
 public class DialogueParser : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class DialogueParser : MonoBehaviour
         playableDirector.playableGraph.GetRootPlayable(0).SetSpeed(0);
     }
 
-    private void SkipText()
+    private void SkipText(InputAction.CallbackContext obj)
     {
         //Skip text or go to the next node
         if(typer.IsTyping)
@@ -145,11 +146,11 @@ public class DialogueParser : MonoBehaviour
     }
 
     private void OnEnable() {
-        inputHandler.UIControls.UI.TextSkip.performed += context => SkipText();
+        inputHandler.UIControls.UI.TextSkip.performed += SkipText;
     }
 
     private void OnDisable() {
-        inputHandler.UIControls.UI.TextSkip.performed -= context => SkipText();
+        inputHandler.UIControls.UI.TextSkip.performed -= SkipText;
     }
 }
 

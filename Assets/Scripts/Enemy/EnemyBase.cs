@@ -190,10 +190,11 @@ public class EnemyBase : MonoBehaviour
         //RandomAttack
         var rand = Random.value;
         string attack;
+        float delay;
 
-        if(rand <= .2f) {attack = "attack3";}
-        else if(rand <= .6f) {attack = "attack2";}
-        else {attack = "attack1";}
+        if(rand <= .2f) {attack = "attack3"; delay = 1.4f;}
+        else if(rand <= .6f) {attack = "attack2"; delay = 0.5f;}
+        else {attack = "attack1"; delay = 0.3f;}
         
         //Animation
         animator.SetBool("isWalking", false);
@@ -207,7 +208,7 @@ public class EnemyBase : MonoBehaviour
         isChasing = false;
         isAttacking = true;
 
-        toPlayerBoost(1);
+        toPlayerBoost(1, delay);
 
         EnemyManager.EnemyStopsAttacking();
 
@@ -273,8 +274,8 @@ public class EnemyBase : MonoBehaviour
 
         if(life<=0)
         {
-            StopCoroutine(attackCoroutine);
-            StopCoroutine(warningCoroutine);
+            if(isChasing) StopCoroutine(attackCoroutine);
+            if(warning) StopCoroutine(warningCoroutine);
             animator.SetTrigger("die");
             navMeshAgent.enabled = false;
             GetComponent<CapsuleCollider>().enabled = false;
@@ -327,9 +328,9 @@ public class EnemyBase : MonoBehaviour
         transform.rotation =  Quaternion.LookRotation(-dir);
     }
 
-    public void toPlayerBoost(int force)
+    public void toPlayerBoost(int force, float delay)
     {
-        directionBoost(force, 1.4f);
+        directionBoost(force, delay);
     }
 
     public void DealDamage(int damage)

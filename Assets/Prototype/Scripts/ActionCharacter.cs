@@ -845,6 +845,12 @@ public class ActionCharacter : MonoBehaviour
         //Apply Physics
         handlePhysics();
         }
+        else
+        {
+            currentMovement.x = 0;
+            currentMovement.z = 0;
+            animator.SetFloat("movementSpeed", 0);
+        }
 
         //Move the character
         if(!isClimbing)
