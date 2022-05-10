@@ -5871,6 +5871,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6408047038729770240, guid: b0bcdc16458c14248a9f8362075bcacd, type: 3}
     - target: {fileID: 4243301286037643747, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
+      propertyPath: hasSword
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4243301286037643747, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -25608,7 +25612,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703658335}
-  m_LocalRotation: {x: 0.21441142, y: 0.18662502, z: -0.041775893, w: 0.957838}
+  m_LocalRotation: {x: 0.21441142, y: 0.18662503, z: -0.041775897, w: 0.957838}
   m_LocalPosition: {x: 1.9199998, y: 8.5, z: 0.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -40449,7 +40453,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1423657675}
   m_LocalRotation: {x: -0, y: -0.7142227, z: -0, w: 0.69991845}
-  m_LocalPosition: {x: -25.23, y: 0.5944319, z: -32.074295}
+  m_LocalPosition: {x: -24.94, y: 0.5944319, z: -32.074295}
   m_LocalScale: {x: 23.536564, y: 0.24732, z: 0.24732}
   m_Children:
   - {fileID: 355350547}
@@ -63716,8 +63720,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2177986487618523983}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.517115, y: 8.083166, z: -0.70557314}
+  m_LocalRotation: {x: 0.08542202, y: -0.8709767, z: 0.16335054, w: 0.45543307}
+  m_LocalPosition: {x: 10.520398, y: 8.6274805, z: 203.23842}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 452442272}
@@ -63749,7 +63753,7 @@ Camera:
     height: 1
   near clip plane: 0.001
   far clip plane: 5000
-  field of view: 51.39997
+  field of view: 50.08299
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

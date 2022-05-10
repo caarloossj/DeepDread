@@ -107,6 +107,7 @@ public class ActionCharacter : MonoBehaviour
     [Space(20)]
 
     //Combate
+    public bool hasSword = true;
     public int currentCombo = 0;
     public int comboMax = 3;
     private bool canAttack = true;
@@ -342,7 +343,7 @@ public class ActionCharacter : MonoBehaviour
     //Ataque
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if(!isFloorBelow || isClimbing || isHanging || dead || isRolling)
+        if(!isFloorBelow || isClimbing || isHanging || dead || isRolling || !hasSword)
             return;
 
         CheckNewAttack();

@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     public Image staminaBar;
     public int healthCharge = 3;
     public Transform chargeParent;
-    public Image staminabar;
     public Image noStamina;
     private bool lossingStamina;
     public Button defaultButton;

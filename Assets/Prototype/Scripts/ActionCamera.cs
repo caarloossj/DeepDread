@@ -35,7 +35,7 @@ public class ActionCamera : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         cinemachineNoise = GetComponent<CinemachineImpulseSource>();
         characterController = ActionCharacter.Instance.characterController;
