@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public CinemachineVirtualCamera cam;
     private Tween staminaTween;
     public Image blood;
+    public bool firstEnemy = false;
 
     #region Singleton
     //Singleton
@@ -91,6 +92,11 @@ public class GameManager : MonoBehaviour
         ActionCharacter.Instance.animator.SetBool("dead", true);
         deathTimeline.Play();
         StartCoroutine(RespawnCoroutine());
+
+        if(TryGetComponent<WaveHack>(out var hack) && currentLife <= 0)
+        {
+            hack.ResetHack();
+        }
     }
 
     private IEnumerator RespawnCoroutine() {
@@ -147,16 +153,37 @@ public class GameManager : MonoBehaviour
 
     public void ChangeCheckpoint(Transform newt)
     {
+        if(newt.name == "Checkpoint 1") firstEnemy = true;
         currentCheckPoint = newt;
     }
 
     private void Respawn(bool heal) {
         ActionCharacter.Instance.dead = false;
         ActionCharacter.Instance.animator.SetBool("dead", false);
+
         if(heal)
         {
             lifebar.DOFillAmount(1, 0.5f).SetEase(Ease.OutQuad);
             currentLife = totalLife;
+
+            healthCharge = 3;
+            
+            for (int i = 0; i < 3; i++)
+            {
+                chargeParent.GetChild(i).gameObject.SetActive(true);
+            }
+
+            if(!firstEnemy)
+            {
+                EnemyManager.activeEnemies[0].Heal();
+            }
+
+            int enCount = EnemyManager.activeEnemies.Count;
+
+            for (int i = firstEnemy ? 0 : 1; i < enCount; i++)
+            {
+                Destroy(EnemyManager.activeEnemies[i].gameObject,0.2f);
+            }
         }
     }
 

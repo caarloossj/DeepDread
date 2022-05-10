@@ -192,8 +192,8 @@ public class EnemyBase : MonoBehaviour
         string attack;
         float delay;
 
-        if(rand <= .2f) {attack = "attack3"; delay = 1.4f;}
-        else if(rand <= .6f) {attack = "attack2"; delay = 0.5f;}
+        if(rand <= .35f) {attack = "attack3"; delay = 1.4f;}
+        else if(rand <= .65f) {attack = "attack2"; delay = 0.5f;}
         else {attack = "attack1"; delay = 0.3f;}
         
         //Animation
@@ -264,6 +264,12 @@ public class EnemyBase : MonoBehaviour
 
             EnemyManager.EnemyStopsAttacking();
         }
+    }
+
+    public void Heal()
+    {
+        life = 100;
+        lifePivot.localScale = Vector3.one;
     }
 
     public void OnHit(int damage, Vector3 direction)

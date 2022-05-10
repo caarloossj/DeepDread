@@ -409,8 +409,6 @@ public class ActionCharacter : MonoBehaviour
 
         Collider[] enemies = Physics.OverlapBox(boxPos, damageBoxExtents/2, transform.rotation, enemyLayerMask);
 
-        Debug.Log("ataco");
-
         if(enemies.Length > 0)
         {
             foreach (var enemy in enemies)
@@ -427,7 +425,7 @@ public class ActionCharacter : MonoBehaviour
                 pos += transform.forward * hitFxOffest.z;
                 Destroy(Instantiate(hitFX, pos, Quaternion.identity).gameObject, 1);
                 //Lock
-                if(bas.life < 10)
+                if(bas.life < 10 && targetLocked != null)
                     TargetLock();
             }
         }
@@ -855,7 +853,7 @@ public class ActionCharacter : MonoBehaviour
         //Move the character
         if(!isClimbing)
         {  
-            characterController.Move(currentMovement * Time.deltaTime);
+            characterController.Move(currentMovement * Time.deltaTime * (isGodMode ? 6 : 1));
         }
         //Apply gravity
         handleGravity();

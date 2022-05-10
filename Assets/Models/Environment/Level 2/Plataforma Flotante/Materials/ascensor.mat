@@ -7,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Palanca
+  m_Name: ascensor
   m_Shader: {fileID: -6465566751694194690, guid: 70836e0575ccd004495e5956de185281, type: 3}
-  m_ShaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
-  m_LightmapFlags: 4
+  m_ShaderKeywords: _EMISSION _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_446673b1f6994d8a98728543da637771:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 25f69f7524bbf7144a225ca089b1233f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_9606dac0f1374e8a84216123e27ad1f4:
@@ -28,11 +28,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: cad19337c40f80f418b939dcff68a5d6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 755c41e16230dd0459640a963f2b3eb7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 1bf37b4cf4da56e428c3b372fb7ca676, type: 3}
+        m_Texture: {fileID: 2800000, guid: d9f96e4b460e1ca459748aed5a11aa06, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -48,19 +48,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f64a2f4454be9c2488a9b7ca458cf914, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: cad19337c40f80f418b939dcff68a5d6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 755c41e16230dd0459640a963f2b3eb7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: f11769f79bd94cb47b3e3ae00afe4b3e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 01cb2e11c484e994b9074778a07e5f4b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: c41ded08f97e79748828cf8749f82a2c, type: 3}
+        m_Texture: {fileID: 2800000, guid: a26a71d1716b4a143bb48ce2873fca0f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -84,9 +84,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_27f8f9647a6041ada09e6645b96dee45: 0
+    - Vector1_27f8f9647a6041ada09e6645b96dee45: 7.19
     - Vector1_a36378cf17e844fd87b2d23136bb25f7: 0
-    - Vector1_ac6d2bfd95f2488591b70fc3b8d1721f: 2
+    - Vector1_ac6d2bfd95f2488591b70fc3b8d1721f: 0.3
     - Vector1_f56c018075334d49820cfb2784588ad0: 0
     - _AlphaClip: 0
     - _Blend: 0
@@ -107,7 +107,7 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.5
+    - _Smoothness: 0.614
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -120,10 +120,10 @@ Material:
     - Vector2_ef0d6457b85d4684a8beb5fda71ec49b: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 2.297397, g: 2.297397, b: 2.297397, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5033120503901043889
+--- !u!114 &2256912024805241992
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

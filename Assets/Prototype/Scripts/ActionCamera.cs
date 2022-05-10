@@ -98,8 +98,6 @@ public class ActionCamera : MonoBehaviour
             zoomTween.Kill(true);
         }
 
-        Debug.Log("zoom");
-
         zoomTween = DOTween.To(() => cinemachine.m_Lens.FieldOfView,
             x =>
             {

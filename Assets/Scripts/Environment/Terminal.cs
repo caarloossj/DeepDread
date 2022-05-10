@@ -29,7 +29,7 @@ public class Terminal : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             interactText.SetActive(false);
-            playerIN = false;;
+            playerIN = false;
         }
     }
 

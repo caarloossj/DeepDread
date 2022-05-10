@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public static class EnemyManager
 {
     public static List<EnemyBase> activeEnemies = new List<EnemyBase>();
     public static int immaAttack = 0;
@@ -28,17 +28,5 @@ public class EnemyManager : MonoBehaviour
     public static void EnemyStopsAttacking()
     {
         immaAttack--;
-    }
-
-    private void Update() {
-    }
-
-    private void AttackLoop()
-    {
-    }
-
-    private IEnumerator AttackTimer()
-    {
-        throw new NotImplementedException();
     }
 }
