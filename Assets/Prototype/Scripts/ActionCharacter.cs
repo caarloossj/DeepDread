@@ -151,6 +151,7 @@ public class ActionCharacter : MonoBehaviour
     private bool isRoof = false;
     private bool isClimbing = false;
     private bool isHanging = false;
+    private bool hang = false;
     public float maxSurfaceTilt;
     public Vector3 hangPosOffset;
     public Vector3 hangPosOffset2;
@@ -602,10 +603,12 @@ public class ActionCharacter : MonoBehaviour
             return;
         }
 
+        hang = CheckForHang();
+
         //Ledge Climb
         if(isJumping && isJumpPressed && !characterController.isGrounded && !isClimbing && !isHanging)
         {
-            if(CheckForHang()) return;
+            if(hang) return;
             CheckForLedge();
         }
 
@@ -634,8 +637,7 @@ public class ActionCharacter : MonoBehaviour
         {
             if(hangLayer == (hangLayer | (1 << collision.gameObject.layer)))
             {
-                StartHang(collision.transform);
-                Debug.Log("asdf");
+                if(!isHanging && isJumpPressed) StartHang(collision.transform);
                 return true;
             }
         }
@@ -649,6 +651,7 @@ public class ActionCharacter : MonoBehaviour
         targetTilt = 0;
         isHanging = true;
 
+        Physics.IgnoreLayerCollision(3, 10, false);
         Physics.IgnoreLayerCollision(3, 6, true);
 
         animator.SetBool("isHanging", true);
@@ -685,6 +688,7 @@ public class ActionCharacter : MonoBehaviour
         isJumping = false;
         currentSpeed = walkSpeed;
         animator.SetBool("isHanging", false);
+        Physics.IgnoreLayerCollision(3, 10, true);
         Physics.IgnoreLayerCollision(3, 6, false);
     }
     

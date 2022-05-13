@@ -193,7 +193,7 @@ public class EnemyBase : MonoBehaviour
         float delay;
 
         if(rand <= .35f) {attack = "attack3"; delay = 1.4f;}
-        else if(rand <= .65f) {attack = "attack2"; delay = 0.5f;}
+        else if(rand <= .65f) {attack = "attack2"; delay = 1f;}
         else {attack = "attack1"; delay = 0.3f;}
         
         //Animation
