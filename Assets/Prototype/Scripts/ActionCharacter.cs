@@ -341,6 +341,11 @@ public class ActionCharacter : MonoBehaviour
         }
     }
 
+    public void GiveSword()
+    {
+        hasSword = true;
+    }
+
     //Ataque
     private void OnAttack(InputAction.CallbackContext context)
     {

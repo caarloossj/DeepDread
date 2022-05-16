@@ -107,6 +107,8 @@ public class GameManager : MonoBehaviour
 
     public void Heal()
     {
+        if(ActionCharacter.Instance.dead) return;
+        if(healFX == null) return;
         if(healthCharge<=0) return;
 
         healthCharge--;

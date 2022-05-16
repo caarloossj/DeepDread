@@ -47,7 +47,7 @@ public class ActionCamera : MonoBehaviour
             {
                 storyboard.m_Alpha = x;
             },
-            0, 3.4f).SetEase(Ease.Linear);
+            0, 3.4f).SetEase(Ease.Linear).SetDelay(1f);
     }
 
     public void ResetCamera()

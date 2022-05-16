@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 using DG.Tweening;
+using TMPro;
 
 public class TravelToLevel : MonoBehaviour
 {
     public string levelName;
     public GameObject interactText;
     public CinemachineStoryboard storyboard;
+    public bool blocked = false;
     private bool playerIN;
 
     private void OnEnable() {
@@ -36,9 +38,15 @@ public class TravelToLevel : MonoBehaviour
         }
     }
 
+    public void Unlock(string text)
+    {
+        interactText.GetComponent<TextMeshProUGUI>().text = "Presiona 'E' para interactuar";
+        blocked = false;
+    }
+
     private void Interact()
     {
-        if(!playerIN) return;
+        if(!playerIN || blocked) return;
         interactText.SetActive(false);
         DOTween.To(() => storyboard.m_Alpha,
             x =>
