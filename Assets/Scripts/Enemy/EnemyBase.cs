@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using DG.Tweening;
 using UnityEngine.Events;
 
-public class EnemyBase : MonoBehaviour
+public class EnemyBase : MonoBehaviour, IHitable
 {
     //Status
     public enum Status { Idle, Chasing, Stunned};
@@ -272,9 +272,12 @@ public class EnemyBase : MonoBehaviour
         lifePivot.localScale = Vector3.one;
     }
 
-    public void OnHit(int damage, Vector3 direction)
+    public string OnHit(int damage, Vector3 direction)
     {
         targetedByPlayer = false;
+
+        //If is attacking, don't
+        if(isAttacking) return "fail";
         
         life -= damage;
 
@@ -289,7 +292,7 @@ public class EnemyBase : MonoBehaviour
             lockTar.SetActive(false);
             this.enabled = false;
             dieEvent.Invoke();
-            return;
+            return "die";
         }
 
         //LifeBar
@@ -302,9 +305,6 @@ public class EnemyBase : MonoBehaviour
         fx.localPosition = Vector3.up * fxOffset;
         Destroy(fx.gameObject, 1f);
 
-        //If is attacking, don't knockback
-        if(isAttacking) return;
-
         //On Hit disable navagent, disable kinematic and add force
         KnockBack(direction);
 
@@ -313,6 +313,8 @@ public class EnemyBase : MonoBehaviour
 
         //Animation
         animator.SetTrigger("hit");
+
+        return "hit";
     }
 
     public void KnockBack(Vector3 direction)

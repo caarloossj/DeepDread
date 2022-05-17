@@ -421,26 +421,34 @@ public class ActionCharacter : MonoBehaviour
             foreach (var enemy in enemies)
             {
                 if(enemy.CompareTag("TargetLock")) continue;
-                var bas = enemy.GetComponent<EnemyBase>();
-                if(bas.isAttacking) continue;
-                bas.OnHit(10,transform.position);
-                //Camera Shake
-                actionCamera.Shake(9);
-                //Particles
-                var pos = transform.position;
-                pos.y += hitFxOffest.y;
-                pos += transform.forward * hitFxOffest.z;
-                Destroy(Instantiate(hitFX, pos, Quaternion.identity).gameObject, 1);
-                //Lock
-                if(bas.life < 10 && targetLocked != null)
-                    TargetLock();
+                var bas = enemy.GetComponent<IHitable>();
+                switch(bas.OnHit(10,transform.position))
+                {
+                    case "hit":
+                        HitFeedback();
+                        break;
+                    case "fail":
+                        continue;
+                    case "die":
+                        HitFeedback();
+                        TargetLock();
+                        break;
+                }
             }
         }
-
-        //Hit particle
-        //var hitFx = Instantiate(hitFX, transform.position + transform.forward * hitFxOffest + transform.up * .2f, Quaternion.identity);
-        //Destroy(hitFx.gameObject, 1);
     }
+
+    private void HitFeedback()
+    {
+        //Camera Shake
+        actionCamera.Shake(9);
+        //Particles
+        var pos = transform.position;
+        pos.y += hitFxOffest.y;
+        pos += transform.forward * hitFxOffest.z;
+        Destroy(Instantiate(hitFX, pos, Quaternion.identity).gameObject, 1);
+    }
+
 
     //Used to reset movement after DoTween
     private void ResetMovement(float duration)
