@@ -9,6 +9,7 @@ public class BossDamage : MonoBehaviour, IHitable
     public Transform HitFX;
     private MaterialPropertyBlock _propBlock;
     public Renderer[] renderers;
+    public LayerMask playerLayer;
 
     void Awake()
     {
@@ -30,5 +31,13 @@ public class BossDamage : MonoBehaviour, IHitable
 
         Debug.Log("Damage");
         return "hit";
+    }
+
+    public void DoDamage() {
+        if(Physics.CheckBox(transform.position, (transform.localScale/2)*102,transform.rotation, playerLayer))
+        {
+            Debug.Log("ASDSD");
+            ActionCharacter.Instance.ReceiveDamage(20);
+        }
     }
 }

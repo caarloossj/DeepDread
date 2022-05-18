@@ -14,6 +14,7 @@ public class BossBehaviour : MonoBehaviour
     public bool isAttacking;
     public bool StopRotation = false;
     public float rotationSpeed;
+    public BossDamage hitBox;
 
 
     private void Start()
@@ -59,8 +60,15 @@ public class BossBehaviour : MonoBehaviour
         isAttacking = false;
     }
 
-    public void BlockRotation() {
+    public void BlockRotation()
+    {
         StopRotation = !StopRotation;
+    }
+
+    public void DealDamage() 
+    {
+        hitBox.DoDamage();
+        Camera.main.GetComponent<ActionCamera>().Shake(7, 1);
     }
 
     void LookAtPlayerSmooth()
