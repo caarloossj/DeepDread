@@ -17,7 +17,7 @@ public class PlayerAudioManager : MonoBehaviour
     {
         soundDict.Add("escalar", Escalar);
         soundDict.Add("rodar", Rodar);
-        soundDict.Add("salto", Salto);
+        soundDict.Add("saltar", Salto);
         soundDict.Add("caer", Caer);
         soundDict.Add("paso", Paso);
 

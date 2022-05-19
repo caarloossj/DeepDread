@@ -29,6 +29,8 @@ public class MenuManager : MonoBehaviour
         inputHandler.UIControls.UI.Return.performed += context => Return();
         inputHandler.UIControls.UI.RightValue.performed += context => ControllerValueInput(true);
         inputHandler.UIControls.UI.LeftValue.performed += context => ControllerValueInput(false);
+
+        AudioListener.volume = PlayerPrefs.GetInt("generalVolume", 1) / 10f;
     }
 
     private void ControllerValueInput(bool increase)
@@ -49,6 +51,11 @@ public class MenuManager : MonoBehaviour
         int newValue = PlayerPrefs.GetInt(setting.valueIdentifier, setting.defaultValue) + (increase ? 1 : -1);
         newValue = Mathf.Clamp(newValue, 0, 10);
         PlayerPrefs.SetInt(setting.valueIdentifier, newValue);
+
+        if(setting.valueIdentifier == "generalVolume")
+        {
+            AudioListener.volume = newValue / 10f;
+        }
 
         setting.SetScale(newValue);
     }

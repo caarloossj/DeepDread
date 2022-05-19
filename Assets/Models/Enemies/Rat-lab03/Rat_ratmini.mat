@@ -102,6 +102,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EmInt: 4.4
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
     - _Glossiness: 0
@@ -122,6 +123,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_475282ca7e254f8db46af6d39a5fb5bb: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0}
+    - Color_9d6fede6f5e6433b80e82a93cd3c5c45: {r: 1, g: 1, b: 1, a: 1}
     - Color_e37745710ede4769b4d2d862f4c4cbbd: {r: 0.6698113, g: 0.078987174, b: 0.078987174, a: 1}
     - Vector2_ef0d6457b85d4684a8beb5fda71ec49b: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 0.71662515, g: 0.8301887, b: 0.72547317, a: 1}

@@ -47,10 +47,26 @@ public class BossBehaviour : MonoBehaviour
     private void Attack()
     {
         //Random attack selector
+        var rand = Random.value;
+        var rand2 = Random.value;
+        string attack;
+        float delay = 1;
 
-        animator.SetTrigger("attack_hand");
+        if(rand <= .5f)
+        {
+            if(rand2 <= .4f) {attack = "attack_hand";}
+            else if(rand2 <= .8f) {attack = "attack_tentacle";}
+            else {attack = "attack_merge"; delay = 3;}
+        }
+        else
+        {
+            if(rand2 <= .5f) {attack = "sweep_hand";}
+            else {attack = "sweep_tentacle";}
+        }
 
-        StartCoroutine(Reset(1));
+        animator.SetTrigger(attack);
+
+        StartCoroutine(Reset(delay));
     }
 
     IEnumerator Reset(float duration)
@@ -63,6 +79,17 @@ public class BossBehaviour : MonoBehaviour
     public void BlockRotation()
     {
         StopRotation = !StopRotation;
+    }
+
+    public void ConstantDamage()
+    {
+        hitBox.constantDamage = true;
+        Camera.main.GetComponent<ActionCamera>().Shake(2, 2);
+    }
+
+    public void EndConstantDamage()
+    {
+        hitBox.constantDamage = false;
     }
 
     public void DealDamage() 

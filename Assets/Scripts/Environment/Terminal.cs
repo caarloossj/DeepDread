@@ -59,7 +59,7 @@ public class Terminal : MonoBehaviour
         IEnumerator travel()
         {
             yield return new WaitForSeconds(seconds);
-            SceneManager.LoadScene("Sala_PreBoss");
+            SceneManager.LoadScene("Pre_Boss_Room");
         }
     }
 }

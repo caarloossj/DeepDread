@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,30 @@ public class SettingsToggle : MonoBehaviour
     public void ChangeValue()
     {
         PlayerPrefs.SetString(valueIdentifier, buttonValue);
+
+        if(valueIdentifier == "resolution")
+        {
+            string[] res = buttonValue.Split('x');
+            Screen.SetResolution(Int32.Parse(res[0]), Int32.Parse(res[1]), true);
+        }
+        else
+        {
+            switch(buttonValue)
+            {
+                case "low":
+                    QualitySettings.SetQualityLevel(0, true);
+                    break;
+                case "default":
+                    QualitySettings.SetQualityLevel(1, true);
+                    break;
+                case "high":
+                    QualitySettings.SetQualityLevel(2, true);
+                    break;
+                case "ultra":
+                    QualitySettings.SetQualityLevel(2, true);
+                    break;
+            }
+        }
 
         foreach (SettingsToggle button in FindObjectsOfType<SettingsToggle>())
         {

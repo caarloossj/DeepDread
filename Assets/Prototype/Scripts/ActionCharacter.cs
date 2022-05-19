@@ -228,6 +228,8 @@ public class ActionCharacter : MonoBehaviour
         currentSpeed = walkSpeed;
 
         setupJumpVariables();
+
+        AudioListener.volume = PlayerPrefs.GetInt("generalVolume", 1) / 10f;
     }
 
     private void OnHeal(InputAction.CallbackContext obj)
@@ -245,10 +247,10 @@ public class ActionCharacter : MonoBehaviour
             //Check for enemy
             bool isEnemyBelow = Physics.CheckSphere(transform.position + distanceToGround, groundedRadius, enemyLayerMask);
 
-            if(isEnemyBelow)
-            {
-                characterController.Move(transform.forward * 0.3f);
-            }
+            //if(isEnemyBelow)
+            //{
+            //    characterController.Move(transform.forward * 0.3f);
+            //}
         }
     }
 
@@ -431,7 +433,8 @@ public class ActionCharacter : MonoBehaviour
                         continue;
                     case "die":
                         HitFeedback();
-                        TargetLock();
+                        if(targetLocked != null)
+                            TargetLock();
                         break;
                 }
             }
