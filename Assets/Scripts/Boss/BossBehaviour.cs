@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BossBehaviour : MonoBehaviour
 {
@@ -12,19 +13,21 @@ public class BossBehaviour : MonoBehaviour
     private float newAttackTime;
     private float currentAttackTime;
     public bool isAttacking;
+    public int currentCyclone = 2;
     public bool StopRotation = false;
     public float rotationSpeed;
     public BossDamage hitBox;
-
+    public bool dead;
 
     private void Start()
     {
         playerTransform = ActionCharacter.Instance.transform;
-        newAttackTime = Random.Range(minAttackTime, maxAttackTime+1);
+        newAttackTime = 10;
     }
 
     void Update()
     {
+        if(dead) return;
         if(!StopRotation)
         {
             LookAtPlayerSmooth();
@@ -39,9 +42,33 @@ public class BossBehaviour : MonoBehaviour
             {
                 currentAttackTime = 0;
                 isAttacking = true;
-                Attack();
+                if(BossDamage.life <= currentCyclone*33)
+                {
+                    Cyclone();
+                }
+                else
+                {
+                    Attack();
+                }
             }
         }
+    }
+
+    private void Cyclone()
+    {
+        //currentCyclone--;
+
+        StopRotation = true;
+
+        //Round
+        var vec = transform.eulerAngles;
+        vec.y = (Mathf.Round(vec.y / 72) * 72) -38;
+
+        transform.DORotate(vec, 0.3f);
+
+        animator.SetTrigger("cyclone");
+
+        StartCoroutine(Reset(18));
     }
 
     private void Attack()
