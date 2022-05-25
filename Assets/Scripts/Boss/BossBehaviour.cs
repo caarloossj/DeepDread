@@ -23,6 +23,8 @@ public class BossBehaviour : MonoBehaviour
     {
         playerTransform = ActionCharacter.Instance.transform;
         newAttackTime = 10;
+        StopRotation = true;
+        transform.DORotate(new Vector3(0,-38,0), 4f).SetDelay(4).OnComplete(() => StopRotation = false);
     }
 
     void Update()

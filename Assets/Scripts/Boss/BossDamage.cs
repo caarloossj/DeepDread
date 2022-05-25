@@ -20,19 +20,20 @@ public class BossDamage : MonoBehaviour, IHitable
 
         life -= damage;
 
-        if(life <= 0)
-        { 
-            //deathDirector.Play();
-            transform.parent.GetComponent<BossBehaviour>().dead = true;
-            StartCoroutine(Die());
-            return "die";
-        }
-
         transform.parent.DOShakePosition(0.2f, 0.24f);
 
         //LifeBar
         lifeBar.DOFillAmount(life/100f, 0.3f).SetEase(Ease.InQuad);
         lifeBar.DOBlendableColor(Color.red, 0.1f).OnComplete(() => lifeBar.DOBlendableColor(Color.white, 0.3f));
+
+        if(life <= 0)
+        { 
+            //deathDirector.Play();
+            transform.parent.GetComponent<BossBehaviour>().dead = true;
+            deathDirector.Play();
+            StartCoroutine(Die());
+            return "die";
+        }
 
         return "hit";
     }
@@ -47,9 +48,15 @@ public class BossDamage : MonoBehaviour, IHitable
         if(Physics.CheckBox(transform.position, (transform.localScale/2)*102,transform.rotation, playerLayer))
         {
             justDidDamage = true;
-            StartCoroutine(ResetDamage());
+            if(constantDamage)
+                StartCoroutine(ResetDamage());
             ActionCharacter.Instance.ReceiveDamage(20);
         }
+    }
+
+    private void OnDisable()
+    {
+        justDidDamage = false;
     }
 
     IEnumerator ResetDamage()
@@ -60,7 +67,6 @@ public class BossDamage : MonoBehaviour, IHitable
 
     IEnumerator Die()
     {
-        yield return new WaitForSeconds(1);
         transform.parent.GetComponent<Animator>().SetTrigger("die");
         yield return new WaitForSeconds(10);
         //Travel

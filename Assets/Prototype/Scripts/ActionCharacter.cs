@@ -424,7 +424,7 @@ public class ActionCharacter : MonoBehaviour
             {
                 if(enemy.CompareTag("TargetLock")) continue;
                 var bas = enemy.GetComponent<IHitable>();
-                switch(bas.OnHit(10,transform.position))
+                switch(bas.OnHit(50,transform.position))
                 {
                     case "hit":
                         HitFeedback();
