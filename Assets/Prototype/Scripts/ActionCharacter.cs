@@ -228,6 +228,8 @@ public class ActionCharacter : MonoBehaviour
         currentSpeed = walkSpeed;
 
         setupJumpVariables();
+
+        AudioListener.volume = PlayerPrefs.GetInt("generalVolume", 1) / 10f;
     }
 
     private void OnHeal(InputAction.CallbackContext obj)
@@ -245,10 +247,10 @@ public class ActionCharacter : MonoBehaviour
             //Check for enemy
             bool isEnemyBelow = Physics.CheckSphere(transform.position + distanceToGround, groundedRadius, enemyLayerMask);
 
-            if(isEnemyBelow)
-            {
-                characterController.Move(transform.forward * 0.3f);
-            }
+            //if(isEnemyBelow)
+            //{
+            //    characterController.Move(transform.forward * 0.3f);
+            //}
         }
     }
 
@@ -421,26 +423,35 @@ public class ActionCharacter : MonoBehaviour
             foreach (var enemy in enemies)
             {
                 if(enemy.CompareTag("TargetLock")) continue;
-                var bas = enemy.GetComponent<EnemyBase>();
-                if(bas.isAttacking) continue;
-                bas.OnHit(10,transform.position);
-                //Camera Shake
-                actionCamera.Shake(9);
-                //Particles
-                var pos = transform.position;
-                pos.y += hitFxOffest.y;
-                pos += transform.forward * hitFxOffest.z;
-                Destroy(Instantiate(hitFX, pos, Quaternion.identity).gameObject, 1);
-                //Lock
-                if(bas.life < 10 && targetLocked != null)
-                    TargetLock();
+                var bas = enemy.GetComponent<IHitable>();
+                switch(bas.OnHit(10,transform.position))
+                {
+                    case "hit":
+                        HitFeedback();
+                        break;
+                    case "fail":
+                        continue;
+                    case "die":
+                        HitFeedback();
+                        if(targetLocked != null)
+                            TargetLock();
+                        break;
+                }
             }
         }
-
-        //Hit particle
-        //var hitFx = Instantiate(hitFX, transform.position + transform.forward * hitFxOffest + transform.up * .2f, Quaternion.identity);
-        //Destroy(hitFx.gameObject, 1);
     }
+
+    private void HitFeedback()
+    {
+        //Camera Shake
+        actionCamera.Shake(9);
+        //Particles
+        var pos = transform.position;
+        pos.y += hitFxOffest.y;
+        pos += transform.forward * hitFxOffest.z;
+        Destroy(Instantiate(hitFX, pos, Quaternion.identity).gameObject, 1);
+    }
+
 
     //Used to reset movement after DoTween
     private void ResetMovement(float duration)
