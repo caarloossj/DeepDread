@@ -31,8 +31,8 @@ public class BossDamage : MonoBehaviour, IHitable
             //deathDirector.Play();
             transform.parent.GetComponent<BossBehaviour>().dead = true;
             deathDirector.Play();
-            StartCoroutine(Die());
-            return "die";
+            transform.parent.GetComponent<BossBehaviour>().Die();
+            return "hit";
         }
 
         return "hit";
@@ -63,12 +63,5 @@ public class BossDamage : MonoBehaviour, IHitable
     {
         yield return new WaitForSeconds(1);
         justDidDamage = false;
-    }
-
-    IEnumerator Die()
-    {
-        transform.parent.GetComponent<Animator>().SetTrigger("die");
-        yield return new WaitForSeconds(10);
-        //Travel
     }
 }

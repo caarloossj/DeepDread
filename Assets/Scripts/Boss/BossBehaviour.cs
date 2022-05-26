@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class BossBehaviour : MonoBehaviour
 {
@@ -133,5 +134,17 @@ public class BossBehaviour : MonoBehaviour
         rot.x = 0;
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(rot), rotationSpeed * Time.deltaTime);
+    }
+    
+    public void Die()
+    {
+        StartCoroutine(DieCoroutine());
+    }
+
+    IEnumerator DieCoroutine()
+    {
+        animator.SetTrigger("die");
+        yield return new WaitForSeconds(14);
+        SceneManager.LoadScene("Credit_Scene");
     }
 }
