@@ -13,6 +13,7 @@ public class TravelToLevel : MonoBehaviour
     public CinemachineStoryboard storyboard;
     public bool blocked = false;
     private bool playerIN;
+    public AudioClip clip;
 
     private void OnEnable() {
         ActionCharacter.Instance.playerInput.CharacterControls.Interact.performed += conext => Interact();
@@ -48,6 +49,7 @@ public class TravelToLevel : MonoBehaviour
     {
         if(!playerIN || blocked) return;
         interactText.SetActive(false);
+        FindObjectOfType<GlobalAudioManager>().AudioPlay(clip, 0.5f, false, transform.position, true); ;
         DOTween.To(() => storyboard.m_Alpha,
             x =>
             {

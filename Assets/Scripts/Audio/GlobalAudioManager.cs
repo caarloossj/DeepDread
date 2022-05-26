@@ -22,7 +22,7 @@ public class GlobalAudioManager : MonoBehaviour
             audioSource.pitch = 1;
         } else
         {
-            audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.2f);
+            audioSource.pitch = UnityEngine.Random.Range(0.8f, 1.1f);
         }
 
         audioSource.PlayOneShot(audio, volume);

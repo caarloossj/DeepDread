@@ -44325,7 +44325,7 @@ AnimationClip:
   m_Events:
   - time: 0.5
     functionName: PlayAudio
-    data: saltar_0,3_1
+    data: saltar_0,5_0
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

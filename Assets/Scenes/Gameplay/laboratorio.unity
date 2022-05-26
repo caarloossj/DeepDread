@@ -2833,6 +2833,7 @@ MonoBehaviour:
         m_CallState: 2
   interactText: {fileID: 1771388572}
   can: 0
+  clip: {fileID: 8300000, guid: 709f884c72e38ed42a5da54496d4671f, type: 3}
 --- !u!135 &301501888
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6670,6 +6671,7 @@ MonoBehaviour:
         m_CallState: 2
   interactText: {fileID: 1771388572}
   can: 1
+  clip: {fileID: 0}
 --- !u!135 &520550349
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -15577,6 +15579,7 @@ MonoBehaviour:
   Salto: {fileID: 8300000, guid: ca3e38119d2146c4489650388dab3c6f, type: 3}
   Caer: {fileID: 8300000, guid: 048641494a1b4184cb06d7b802b55d27, type: 3}
   Paso: {fileID: 8300000, guid: 58f6d70af04640f418b80d499d0606a4, type: 3}
+  Aire: {fileID: 0}
 --- !u!114 &1024512563 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4243301286037643747, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
@@ -21352,9 +21355,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 2ffb9f52461e4c8408db38ccfd6464a0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0401bf7fdfcb0ee4c981a53237a67386, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -22881,6 +22884,7 @@ MonoBehaviour:
   interactText: {fileID: 322575889}
   storyboard: {fileID: 1621659166}
   blocked: 1
+  clip: {fileID: 8300000, guid: 64fe5b6ea90f75f4f90f6732084549e7, type: 3}
 --- !u!65 &1956429983
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     private Tween staminaTween;
     public Image blood;
     public bool firstEnemy = false;
+    private AudioSource musicSource;
 
     #region Singleton
     //Singleton
@@ -57,6 +58,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
+        musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
+        musicSource.volume = PlayerPrefs.GetInt("musicVolume", 1) / 10f * 0.2f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }

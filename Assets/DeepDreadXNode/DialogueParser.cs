@@ -110,7 +110,7 @@ public class DialogueParser : MonoBehaviour
         if(node.GetPort("Event 1") != null)
         {
             xEventNode eventNode = node.GetPort("Event 1").Connection.node as xEventNode;
-            audioManager.AudioPlay(eventNode.audioClip, 0.45f, false, new Vector3(900,900,900), false); 
+            audioManager.AudioPlay(eventNode.audioClip, 0.7f, false, new Vector3(900,900,900), false); 
         }
     }
 

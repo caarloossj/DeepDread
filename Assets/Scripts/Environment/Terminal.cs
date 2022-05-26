@@ -10,6 +10,7 @@ public class Terminal : MonoBehaviour
     public GameObject interactText;
     private bool playerIN;
     public bool can = true;
+    public AudioClip clip;
 
     private void OnEnable() {
         ActionCharacter.Instance.playerInput.CharacterControls.Interact.performed += conext => Interact();
@@ -48,6 +49,7 @@ public class Terminal : MonoBehaviour
             FindObjectOfType<FloatingBox>().Popup("Primero deberias coger esa espada");
             return;
         }
+        FindObjectOfType<GlobalAudioManager>().AudioPlay(clip, 0.5f, false, transform.position, true); ;
         interactText.SetActive(false);
         terminalEvent.Invoke();
     }

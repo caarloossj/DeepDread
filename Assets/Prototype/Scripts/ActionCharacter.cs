@@ -424,7 +424,7 @@ public class ActionCharacter : MonoBehaviour
             {
                 if(enemy.CompareTag("TargetLock")) continue;
                 var bas = enemy.GetComponent<IHitable>();
-                switch(bas.OnHit(50,transform.position))
+                switch(bas.OnHit(10,transform.position))
                 {
                     case "hit":
                         HitFeedback();
@@ -449,6 +449,7 @@ public class ActionCharacter : MonoBehaviour
         var pos = transform.position;
         pos.y += hitFxOffest.y;
         pos += transform.forward * hitFxOffest.z;
+        playerAudioManager.AudioPlay("hit_0,4_1");
         Destroy(Instantiate(hitFX, pos, Quaternion.identity).gameObject, 1);
     }
 

@@ -10,6 +10,9 @@ public class PlayerAudioManager : MonoBehaviour
     public AudioClip Salto;
     public AudioClip Caer;
     public AudioClip Paso;
+    public AudioClip Aire;
+    public AudioClip Hit;
+    public AudioClip Pipe;
     private Dictionary<string,AudioClip> soundDict = new Dictionary<string, AudioClip>();
     private GlobalAudioManager audioManager;
 
@@ -20,6 +23,9 @@ public class PlayerAudioManager : MonoBehaviour
         soundDict.Add("saltar", Salto);
         soundDict.Add("caer", Caer);
         soundDict.Add("paso", Paso);
+        soundDict.Add("aire", Aire);
+        soundDict.Add("hit", Hit);
+        soundDict.Add("pipe", Pipe);
 
         audioManager = FindObjectOfType<GlobalAudioManager>();
     }

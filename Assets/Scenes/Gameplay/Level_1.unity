@@ -34363,6 +34363,7 @@ MonoBehaviour:
   interactText: {fileID: 195396116}
   storyboard: {fileID: 1281141766}
   blocked: 0
+  clip: {fileID: 8300000, guid: 64fe5b6ea90f75f4f90f6732084549e7, type: 3}
 --- !u!65 &1578031719
 BoxCollider:
   m_ObjectHideFlags: 0
