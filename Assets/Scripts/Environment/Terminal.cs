@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class Terminal : MonoBehaviour
 {
@@ -11,13 +12,14 @@ public class Terminal : MonoBehaviour
     private bool playerIN;
     public bool can = true;
     public AudioClip clip;
+    public float volume = 0.5f;
 
     private void OnEnable() {
-        ActionCharacter.Instance.playerInput.CharacterControls.Interact.performed += conext => Interact();
+        ActionCharacter.Instance.playerInput.CharacterControls.Interact.performed += Interact;
     }
 
     private void OnDisable() {
-        ActionCharacter.Instance.playerInput.CharacterControls.Interact.performed -= conext => Interact();
+        ActionCharacter.Instance.playerInput.CharacterControls.Interact.performed -= Interact;
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -41,7 +43,7 @@ public class Terminal : MonoBehaviour
         can = true;
     }
 
-    private void Interact()
+    private void Interact(InputAction.CallbackContext context)
     {
         if(!playerIN) return;
         if(can == false)
@@ -49,7 +51,7 @@ public class Terminal : MonoBehaviour
             FindObjectOfType<FloatingBox>().Popup("Primero deberias coger esa espada");
             return;
         }
-        FindObjectOfType<GlobalAudioManager>().AudioPlay(clip, 0.5f, false, transform.position, true); ;
+        FindObjectOfType<GlobalAudioManager>().AudioPlay(clip, volume, false, transform.position, true); ;
         interactText.SetActive(false);
         terminalEvent.Invoke();
     }

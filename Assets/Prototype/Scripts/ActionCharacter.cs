@@ -234,6 +234,7 @@ public class ActionCharacter : MonoBehaviour
 
     private void OnHeal(InputAction.CallbackContext obj)
     {
+        playerAudioManager.AudioPlay("curar_0,8_0");
         GameManager.Instance.Heal();
     }
 
@@ -629,7 +630,7 @@ public class ActionCharacter : MonoBehaviour
             CheckForLedge();
         }
 
-        if(!isJumping && (characterController.isGrounded || isHanging) && isJumpPressed)
+        if(!isJumping && (characterController.isGrounded || !isHanging) && isJumpPressed && !isAttacking)
         {
             isJumping = true;
             currentMovement.y = initialJumpVelocity;

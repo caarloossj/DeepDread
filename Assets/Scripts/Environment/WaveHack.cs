@@ -18,6 +18,7 @@ public class WaveHack : MonoBehaviour
     public bool bridgeOpened = false;
     public PlayableDirector playableDirector;
     private AudioSource musicSource;
+    public GameObject terminal;
 
     private void Start()
     {
@@ -50,6 +51,7 @@ public class WaveHack : MonoBehaviour
         hackText.gameObject.SetActive(false);
         progress = 0;
         FindObjectOfType<RobotFollower>().target = ActionCharacter.Instance.transform.Find("RobotTarget").transform;
+        terminal.SetActive(true);
     }
 
     private void Update() {
