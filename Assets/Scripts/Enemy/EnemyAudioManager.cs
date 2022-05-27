@@ -10,6 +10,8 @@ public class EnemyAudioManager : MonoBehaviour
     public AudioClip Paso;
     public AudioClip Grunt1;
     public AudioClip Grunt2;
+    public AudioClip Grito1;
+    public AudioClip Grito2;
     private Dictionary<string,AudioClip> soundDict = new Dictionary<string, AudioClip>();
     private GlobalAudioManager audioManager;
 
@@ -20,6 +22,8 @@ public class EnemyAudioManager : MonoBehaviour
         soundDict.Add("paso", Paso);
         soundDict.Add("grunt1", Grunt1);
         soundDict.Add("grunt2", Grunt2);
+        soundDict.Add("grito1", Grito1);
+        soundDict.Add("grito2", Grito2);
 
         audioManager = FindObjectOfType<GlobalAudioManager>();
     }

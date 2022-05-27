@@ -7,7 +7,7 @@ public static class EnemyManager
 {
     public static List<EnemyBase> activeEnemies = new List<EnemyBase>();
     public static int immaAttack = 0;
-
+    
     public static void AddEnemy(EnemyBase enemy)
     {
         activeEnemies.Add(enemy);
@@ -17,7 +17,7 @@ public static class EnemyManager
     public static void RemoveEnemy(EnemyBase enemy)
     {
         activeEnemies.Remove(enemy);
-        Debug.Log("Removed an enemy");
+        Debug.Log("Removed an enemy");  
     }
 
     public static void EnemyAttacking()

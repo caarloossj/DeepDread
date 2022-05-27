@@ -33,7 +33,6 @@ public class MenuManager : MonoBehaviour
 
         AudioListener.volume = PlayerPrefs.GetInt("generalVolume", 1) / 10f;
         musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
-        musicSource.volume = PlayerPrefs.GetInt("musicVolume", 1) / 10f * 0.2f;
     }
 
     private void ControllerValueInput(bool increase)
@@ -58,7 +57,7 @@ public class MenuManager : MonoBehaviour
         if(setting.valueIdentifier == "generalVolume")
         {
             AudioListener.volume = newValue / 10f;
-        } else
+        } else if (musicSource.volume != 0)
         {
             musicSource.volume = newValue / 10f * 0.2f;
         }

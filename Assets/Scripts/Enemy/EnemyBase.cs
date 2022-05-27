@@ -440,6 +440,11 @@ public class EnemyBase : MonoBehaviour, IHitable
     private void OnDisable()
     {
         EnemyManager.RemoveEnemy(this);
+
+        if(EnemyManager.activeEnemies.Count <= 0)
+        {
+            GameObject.Find("Music").GetComponent<AudioSource>().DOFade(0, 2);
+        }
     }
 
     private void OnDrawGizmosSelected() {

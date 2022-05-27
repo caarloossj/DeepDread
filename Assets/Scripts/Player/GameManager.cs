@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
-        musicSource.volume = PlayerPrefs.GetInt("musicVolume", 1) / 10f * 0.2f;
+        //musicSource.volume = PlayerPrefs.GetInt("musicVolume", 1) / 10f * 0.2f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }

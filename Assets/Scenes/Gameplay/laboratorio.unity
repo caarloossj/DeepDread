@@ -1346,7 +1346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2177986487353845329, guid: 5ee67933b59cc5d4b868f09f60557c8f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.22142428
+      value: -0.22159004
       objectReference: {fileID: 0}
     - target: {fileID: 2177986487353845329, guid: 5ee67933b59cc5d4b868f09f60557c8f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1354,7 +1354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2177986487353845329, guid: 5ee67933b59cc5d4b868f09f60557c8f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.146494
+      value: -8.146493
       objectReference: {fileID: 0}
     - target: {fileID: 2177986487353845329, guid: 5ee67933b59cc5d4b868f09f60557c8f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6671,7 +6671,7 @@ MonoBehaviour:
         m_CallState: 2
   interactText: {fileID: 1771388572}
   can: 1
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: ae4a7bfd01cc29447a87ff6a45b8c34c, type: 3}
 --- !u!135 &520550349
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -15580,6 +15580,8 @@ MonoBehaviour:
   Caer: {fileID: 8300000, guid: 048641494a1b4184cb06d7b802b55d27, type: 3}
   Paso: {fileID: 8300000, guid: 58f6d70af04640f418b80d499d0606a4, type: 3}
   Aire: {fileID: 0}
+  Hit: {fileID: 0}
+  Pipe: {fileID: 0}
 --- !u!114 &1024512563 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4243301286037643747, guid: 2cbc7cc7bb0624f4eb6ac40aa2c13f5e, type: 3}
@@ -23882,7 +23884,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3623841129748491651, guid: eb56e42aa40642245910b72563c3a733, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.25745428
+      value: 0.25686342
       objectReference: {fileID: 0}
     - target: {fileID: 3623841129748491651, guid: eb56e42aa40642245910b72563c3a733, type: 3}
       propertyPath: m_LocalPosition.y

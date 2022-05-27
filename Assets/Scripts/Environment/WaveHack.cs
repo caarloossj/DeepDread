@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
+using DG.Tweening;
 
 public class WaveHack : MonoBehaviour
 {
@@ -16,12 +17,20 @@ public class WaveHack : MonoBehaviour
     public bool hackComplete = false;
     public bool bridgeOpened = false;
     public PlayableDirector playableDirector;
+    private AudioSource musicSource;
+
+    private void Start()
+    {
+        musicSource = GameObject.Find("Music").GetComponent<AudioSource>();
+    }
 
     public void StartHack()
     {
         hackText.gameObject.SetActive(true);
         hacking = true;
         previousEnemies = EnemyManager.activeEnemies.Count;
+        float vol = PlayerPrefs.GetInt("musicVolume", 1) / 10f * 0.2f;
+        musicSource.DOFade(vol, 1);
     }
 
     private void EndHack()
@@ -48,6 +57,7 @@ public class WaveHack : MonoBehaviour
         {
             if(EnemyManager.activeEnemies.Count <= (GameManager.Instance.firstEnemy ? 0 : 1))
             {
+                musicSource.DOFade(0, 2);
                 bridgeOpened = true;
                 playableDirector.Play();
                 hackText.gameObject.SetActive(false);

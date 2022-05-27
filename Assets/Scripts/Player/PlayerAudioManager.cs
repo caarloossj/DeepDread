@@ -13,6 +13,8 @@ public class PlayerAudioManager : MonoBehaviour
     public AudioClip Aire;
     public AudioClip Hit;
     public AudioClip Pipe;
+    public AudioClip Dolor1;
+    public AudioClip Dolor2;
     private Dictionary<string,AudioClip> soundDict = new Dictionary<string, AudioClip>();
     private GlobalAudioManager audioManager;
 
@@ -26,6 +28,8 @@ public class PlayerAudioManager : MonoBehaviour
         soundDict.Add("aire", Aire);
         soundDict.Add("hit", Hit);
         soundDict.Add("pipe", Pipe);
+        soundDict.Add("dolor1", Dolor1);
+        soundDict.Add("dolor2", Dolor2);
 
         audioManager = FindObjectOfType<GlobalAudioManager>();
     }
