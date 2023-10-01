@@ -443,7 +443,9 @@ public class EnemyBase : MonoBehaviour, IHitable
 
         if(EnemyManager.activeEnemies.Count <= 0)
         {
-            GameObject.Find("Music").GetComponent<AudioSource>().DOFade(0, 2);
+            var music = GameObject.Find("Music");
+            if(music != null)
+                GameObject.Find("Music").GetComponent<AudioSource>().DOFade(0, 2);
         }
     }
 

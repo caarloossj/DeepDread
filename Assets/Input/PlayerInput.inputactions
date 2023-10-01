@@ -231,17 +231,6 @@
                 },
                 {
                     "name": "",
-                    "id": "c3b622de-7372-408e-9b81-b2fe45ce674b",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Roll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "fc054a40-4697-4bea-af45-232048d9b40e",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
@@ -297,6 +286,50 @@
                 },
                 {
                     "name": "",
+                    "id": "0dcf0b4b-502e-4c3c-b018-c0258fa80d04",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b485327a-0513-413b-8923-2c66809beb72",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "87efbdc7-3d99-4443-82d0-210debbc5681",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "47698fe1-b4f9-477c-8c77-f5b8457c5dea",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c4ef9647-810a-42cd-9a1a-e3157af1811c",
                     "path": "<Keyboard>/f10",
                     "interactions": "",
@@ -342,7 +375,18 @@
                 {
                     "name": "",
                     "id": "9415097f-9580-4a12-86dd-904585cca3db",
-                    "path": "<Keyboard>/tab",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TargetLock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8df5aeb9-3a59-4492-bb84-ab47b722824d",
+                    "path": "<Gamepad>/rightStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -374,8 +418,41 @@
                 },
                 {
                     "name": "",
+                    "id": "56fae8b0-fc35-4caf-8578-e6e1b7baf284",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Heal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8be1513b-b2bc-45b1-ba82-ce0c6a71d481",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Heal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d0db874b-5f9e-47ed-be6e-74eecfd3357f",
                     "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c230771c-8532-4e6f-a8c8-1d7eceb7e3ad",
+                    "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -403,6 +480,17 @@
                     "name": "",
                     "id": "64945718-9db4-4069-ab2a-7b83c06cd8f6",
                     "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86884666-cb2a-443c-8596-5181d2055b9a",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

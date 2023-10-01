@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Gameplay/boss_room.unity
     guid: 1f3a5d9daca2ebf439517de3478f869c
   - enabled: 1
+    path: Assets/Scenes/Gameplay/After_Boss.unity
+    guid: 251257904fdc245449196abb62ba8b9a
+  - enabled: 1
     path: Assets/Interface/Credit_Scene.unity
     guid: 724f5ef5b8cac4b408fa9e55fe974306
   m_configObjects: {}

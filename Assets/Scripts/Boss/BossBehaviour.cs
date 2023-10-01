@@ -19,6 +19,7 @@ public class BossBehaviour : MonoBehaviour
     public float rotationSpeed;
     public BossDamage hitBox;
     public bool dead;
+    public bool vulnerable = false;
 
     private void Start()
     {
@@ -59,7 +60,7 @@ public class BossBehaviour : MonoBehaviour
 
     private void Cyclone()
     {
-        //currentCyclone--;
+        currentCyclone--;
 
         StopRotation = true;
 
@@ -70,6 +71,8 @@ public class BossBehaviour : MonoBehaviour
         transform.DORotate(vec, 0.3f);
 
         animator.SetTrigger("cyclone");
+
+        vulnerable = true;
 
         StartCoroutine(Reset(18));
     }
@@ -82,7 +85,7 @@ public class BossBehaviour : MonoBehaviour
         string attack;
         float delay = 1;
 
-        if(rand <= .5f)
+        if(rand <= .8f)
         {
             if(rand2 <= .4f) {attack = "attack_hand";}
             else if(rand2 <= .8f) {attack = "attack_tentacle";}
@@ -102,6 +105,7 @@ public class BossBehaviour : MonoBehaviour
     IEnumerator Reset(float duration)
     {
         yield return new WaitForSeconds(duration);
+        if(vulnerable) vulnerable = false;
         newAttackTime = Random.Range(minAttackTime, maxAttackTime+1);
         isAttacking = false;
     }

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Cinemachine;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class TravelToLevel : MonoBehaviour
 {
@@ -16,11 +17,12 @@ public class TravelToLevel : MonoBehaviour
     public AudioClip clip;
 
     private void OnEnable() {
-        ActionCharacter.Instance.playerInput.CharacterControls.Interact.performed += conext => Interact();
+        ActionCharacter.Instance.playerInput.CharacterControls.Interact.performed += Interact;
     }
 
     private void OnDisable() {
-        ActionCharacter.Instance.playerInput.CharacterControls.Interact.performed -= conext => Interact();
+        if(ActionCharacter.Instance != null)
+            ActionCharacter.Instance.playerInput.CharacterControls.Interact.performed -= Interact;
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -45,7 +47,7 @@ public class TravelToLevel : MonoBehaviour
         blocked = false;
     }
 
-    private void Interact()
+    private void Interact(InputAction.CallbackContext context)
     {
         if(!playerIN || blocked) return;
         interactText.SetActive(false);

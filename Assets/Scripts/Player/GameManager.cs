@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Playables;
 using Cinemachine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -102,6 +103,10 @@ public class GameManager : MonoBehaviour
     }
 
     private IEnumerator RespawnCoroutine() {
+        if(currentLife <= 0)
+        {
+            musicSource.DOFade(0, 3);
+        }
         yield return new WaitForSeconds(4);
         ActionCharacter.Instance.transform.position = currentCheckPoint.position;
         yield return new WaitForSeconds(1);
@@ -187,6 +192,11 @@ public class GameManager : MonoBehaviour
             for (int i = firstEnemy ? 0 : 1; i < enCount; i++)
             {
                 Destroy(EnemyManager.activeEnemies[i].gameObject,0.2f);
+            }
+
+            if(SceneManager.GetActiveScene().name == "boss_room")
+            {
+                SceneManager.LoadScene("After_Boss");
             }
         }
     }

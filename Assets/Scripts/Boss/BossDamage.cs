@@ -13,12 +13,17 @@ public class BossDamage : MonoBehaviour, IHitable
     public bool constantDamage;
     public bool justDidDamage;
     public PlayableDirector deathDirector;
+    private BossBehaviour parentBoss;
+
+    private void Start() {
+        parentBoss = transform.parent.GetComponent<BossBehaviour>();
+    }
 
     public string OnHit(int damage, Vector3 dir)
     {
         if(constantDamage) return "fail";
 
-        life -= damage;
+        life -= parentBoss.vulnerable ? (damage-4) : (damage-5);
 
         transform.parent.DOShakePosition(0.2f, 0.24f);
 
@@ -29,9 +34,10 @@ public class BossDamage : MonoBehaviour, IHitable
         if(life <= 0)
         { 
             //deathDirector.Play();
-            transform.parent.GetComponent<BossBehaviour>().dead = true;
+            parentBoss.dead = true;
             deathDirector.Play();
-            transform.parent.GetComponent<BossBehaviour>().Die();
+            parentBoss.Die();
+            life = 100;
             return "hit";
         }
 

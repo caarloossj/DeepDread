@@ -101,4 +101,9 @@ public class MenuManager : MonoBehaviour
 
         currentPage = newPage;
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
